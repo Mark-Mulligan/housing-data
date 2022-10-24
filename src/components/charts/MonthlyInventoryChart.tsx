@@ -18,6 +18,8 @@ interface IProps {
     activeListingCountData: number[][];
     daysOnMarketData: number[][];
     newListingCountData: number[][];
+    priceIncreasedCountData: number[][];
+    priceReducedCountData: number[][];
   };
 }
 
@@ -51,6 +53,19 @@ const MonthlyInventoryChart: FC<IProps> = ({ data }) => {
       name: "New Listings",
       yAxis: 1,
       data: data.newListingCountData,
+      showInNavigator: true,
+    });
+
+    series.push({
+      name: "Price Increased",
+      yAxis: 1,
+      data: data.priceIncreasedCountData,
+      showInNavigator: true,
+    });
+    series.push({
+      name: "Price Reduced",
+      yAxis: 1,
+      data: data.priceReducedCountData,
       showInNavigator: true,
     });
 
@@ -129,10 +144,11 @@ const MonthlyInventoryChart: FC<IProps> = ({ data }) => {
   };
 
   return (
-    <div>
+    <div style={{ height: 500 }}>
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={"stockChart"}
+        containerProps={{ style: { height: "100%" } }}
         options={generateWeeklyInventoryChartOptions()}
       />
     </div>

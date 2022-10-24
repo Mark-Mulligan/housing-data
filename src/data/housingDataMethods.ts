@@ -21,7 +21,7 @@ const percentToDataPoint = (percent: string) => {
 const getDateFromMonthlyData = (date: string) => {
   let year = Number(date.slice(0, 4));
   let month = Number(date.slice(4)) - 1;
-  let dateObj = new Date(year, month);
+  let dateObj = new Date(year, month, 1);
   return dateObj.getTime();
 };
 
@@ -37,6 +37,8 @@ export const formatMonthlyInventoryData = (
   const activeListingCountData: number[][] = [];
   const daysOnMarketData: number[][] = [];
   const newListingCountData: number[][] = [];
+  const priceIncreasedCountData: number[][] = [];
+  const priceReducedCountData: number[][] = [];
 
   /* 
     Last Index of Data contains a note, first index of data contains columns titles so ignore these.
@@ -51,6 +53,8 @@ export const formatMonthlyInventoryData = (
       activeListingCountData.push([date, Number(dataPoint[5])]);
       daysOnMarketData.push([date, Number(dataPoint[8])]);
       newListingCountData.push([date, Number(dataPoint[11])]);
+      priceIncreasedCountData.push([date, Number(dataPoint[14])]);
+      priceReducedCountData.push([date, Number(dataPoint[17])]);
     }
   }
 
@@ -59,6 +63,8 @@ export const formatMonthlyInventoryData = (
     activeListingCountData,
     daysOnMarketData,
     newListingCountData,
+    priceIncreasedCountData,
+    priceReducedCountData,
   };
 };
 
