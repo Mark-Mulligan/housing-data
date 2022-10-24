@@ -1,4 +1,5 @@
-import { housingInventory } from "./housingData";
+// Custom Types
+import { MonthlyHousingInventoryDataPoint } from "../customTypes";
 
 type housingInventoryDataPoint = [
   string,
@@ -17,9 +18,48 @@ const percentToDataPoint = (percent: string) => {
   return Number(percent.slice(0, percent.length - 1));
 };
 
+const getDateFromMonthlyData = (date: string) => {
+  let year = Number(date.slice(0, 4));
+  let month = Number(date.slice(4)) - 1;
+  let dateObj = new Date(year, month);
+  return dateObj.getTime();
+};
+
 const dateToDataPoint = (date: string) => {
   let dateObj = new Date(date);
   return dateObj.getTime();
+};
+
+export const formatMonthlyInventoryData = (
+  housingData: MonthlyHousingInventoryDataPoint[]
+) => {
+  const listingPriceData: number[][] = [];
+  const activeListingCountData: number[][] = [];
+  const daysOnMarketData: number[][] = [];
+  const newListingCountData: number[][] = [];
+
+  /* 
+    Last Index of Data contains a note, first index of data contains columns titles so ignore these.
+    Data must be reformatted to start with the earliest dates, thus the backwards for loop
+  */
+  for (let i = housingData.length - 2; i > 0; i--) {
+    let dataPoint = housingData[i];
+    if (dataPoint) {
+      let date = getDateFromMonthlyData(dataPoint[0]);
+
+      listingPriceData.push([date, Number(dataPoint[2])]);
+      activeListingCountData.push([date, Number(dataPoint[5])]);
+      daysOnMarketData.push([date, Number(dataPoint[8])]);
+      newListingCountData.push([date, Number(dataPoint[11])]);
+    }
+  }
+
+  return {
+    listingPriceData,
+    activeListingCountData,
+    daysOnMarketData,
+    newListingCountData,
+  };
 };
 
 export const formatInventoryData = (

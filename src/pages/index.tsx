@@ -3,133 +3,22 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 // Data
-import { formatInventoryData } from "../data/housingDataMethods";
-import { housingInventory } from "../data/housingData";
+import { formatMonthlyInventoryData } from "../data/housingDataMethods";
+import { monthlyHousingInventory } from "../data/housingData";
 
-// Highcharts
-import React from "react";
-import Highcharts, { chart } from "highcharts/highstock";
-import HighchartsReact from "highcharts-react-official";
-import HighchartsExporting from "highcharts/modules/exporting";
-
-// if (typeof Highcharts === "object") {
-//   console.log("highcharts", Highcharts);
-//   HighchartsExporting(Highcharts);
-// }
+// Components
+import MonthlyInventoryChart from "../components/charts/MonthlyInventoryChart";
 
 interface IProps {
-  medianListingCountYY: number[][];
-  medianListingPriceYY: number[][];
-  medianDaysOnMarketByDay: number[][];
-  medianDaysOnMarketAsPct: number[][];
+  monthlyData: {
+    listingPriceData: number[][];
+    activeListingCountData: number[][];
+    daysOnMarketData: number[][];
+    newListingCountData: number[][];
+  };
 }
 
-const Home: NextPage<IProps> = ({
-  medianListingPriceYY,
-  medianListingCountYY,
-  medianDaysOnMarketByDay,
-  medianDaysOnMarketAsPct,
-}) => {
-  const generateWeeklyInventoryChartOptions = () => {
-    return {
-      title: {
-        text: "Housing Inventory Data",
-      },
-      legend: {
-        align: "left",
-        verticalAlign: "top",
-      },
-      yAxis: [
-        {
-          opposite: false,
-          labels: {
-            format: "{value} %",
-          },
-          title: {
-            text: "% Change (Y/Y)",
-          },
-        },
-        {
-          title: {
-            text: "Days Change (Y/Y)",
-          },
-          labels: {
-            format: "{value} days",
-          },
-        },
-      ],
-
-      xAxis: {
-        accessibility: {
-          rangeDescription: "Range: 2010 to 2020",
-        },
-      },
-
-      rangeSelector: {
-        selected: 1,
-      },
-
-      responsive: {
-        rules: [
-          {
-            condition: {
-              maxWidth: 500,
-            },
-            chartOptions: {
-              legend: {
-                layout: "horizontal",
-                align: "center",
-                verticalAlign: "bottom",
-              },
-            },
-          },
-        ],
-      },
-      tooltip: {
-        shared: true,
-      },
-
-      series: [
-        {
-          name: "Median Listing Price",
-          data: medianListingPriceYY,
-          yAxis: 0,
-          showInNavigator: true,
-          tooltip: {
-            valueSuffix: " %",
-          },
-        },
-        {
-          name: "Median Listing Count",
-          data: medianListingCountYY,
-          yAxis: 0,
-          showInNavigator: true,
-          tooltip: {
-            valueSuffix: " %",
-          },
-        },
-        {
-          name: "Median Days On Market",
-          data: medianDaysOnMarketByDay,
-          showInNavigator: true,
-          yAxis: 1,
-          tooltip: {
-            valueSuffix: " Days",
-          },
-        },
-        {
-          name: "Median Days On Market",
-          data: medianDaysOnMarketAsPct,
-          showInNavigator: true,
-          yAxis: 0,
-          tooltip: {
-            valueSuffix: " %",
-          },
-        },
-      ],
-    };
-  };
-
+const Home: NextPage<IProps> = ({ monthlyData }) => {
   return (
     <>
       <Head>
@@ -142,13 +31,7 @@ const Home: NextPage<IProps> = ({
         <h1 className="text-center text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           US Housing Data
         </h1>
-        <div>
-          <HighchartsReact
-            highcharts={Highcharts}
-            constructorType={"stockChart"}
-            options={generateWeeklyInventoryChartOptions()}
-          />
-        </div>
+        <MonthlyInventoryChart data={monthlyData} />
       </main>
     </>
   );
@@ -157,19 +40,11 @@ const Home: NextPage<IProps> = ({
 export default Home;
 
 export const getStaticProps = async () => {
-  const {
-    medianDaysOnMarketByDay,
-    medianListingCountYY,
-    medianListingPriceYY,
-    medianDaysOnMarketAsPct,
-  } = formatInventoryData(housingInventory);
+  const monthlyData = formatMonthlyInventoryData(monthlyHousingInventory);
 
   return {
     props: {
-      medianListingCountYY,
-      medianListingPriceYY,
-      medianDaysOnMarketByDay,
-      medianDaysOnMarketAsPct,
+      monthlyData,
     },
   };
 };

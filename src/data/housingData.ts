@@ -1,3 +1,6 @@
+// Custom Types
+import { MonthlyHousingInventoryDataPoint } from "../customTypes";
+
 type housingInventoryDataPoint = [
   string,
   string,
@@ -11,7 +14,7 @@ type housingInventoryDataPoint = [
   string
 ];
 
-export const monthlyHousingInventory = [
+export const monthlyHousingInventory: MonthlyHousingInventoryDataPoint[] = [
   [
     "month_date_yyyymm",
     "country",
