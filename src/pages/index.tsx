@@ -2,28 +2,28 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 
-// Highcharts
-import Highcharts from "highcharts/highstock";
-import HighchartsReact from "highcharts-react-official";
-
 // Data
 import { getMedianListingPriceYYData } from "../data/housingDataMethods";
+import { createChartData } from "../data/housingDataMethods";
 
-console.log(getMedianListingPriceYYData());
+// Highcharts
+import React from "react";
+import Highcharts, { chart } from "highcharts/highstock";
+import HighchartsReact from "highcharts-react-official";
+import HighchartsExporting from "highcharts/modules/exporting";
 
-const options = {
-  title: {
-    text: "My stock chart",
-  },
-  series: [
-    {
-      name: "Median Listing Price (Y/Y)",
-      data: getMedianListingPriceYYData(),
-    },
-  ],
-};
+// if (typeof Highcharts === "object") {
+//   console.log("highcharts", Highcharts);
+//   HighchartsExporting(Highcharts);
+// }
 
-const Home: NextPage = () => {
+interface IProps {
+  chartOptions: any;
+}
+
+const Home: NextPage<IProps> = ({ chartOptions }) => {
+  console.log(chartOptions);
+
   return (
     <>
       <Head>
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
           <HighchartsReact
             highcharts={Highcharts}
             constructorType={"stockChart"}
-            options={options}
+            options={chartOptions}
           />
         </div>
       </main>
@@ -49,3 +49,12 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getStaticProps = async () => {
+  const medianListingPriceData = getMedianListingPriceYYData();
+  const chartOptions = createChartData(medianListingPriceData);
+
+  return {
+    props: { chartOptions },
+  };
+};
