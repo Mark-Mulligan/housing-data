@@ -37,8 +37,9 @@ export const formatMonthlyInventoryData = (
   const activeListingCountData: number[][] = [];
   const daysOnMarketData: number[][] = [];
   const newListingCountData: number[][] = [];
-  const priceIncreasedCountData: number[][] = [];
   const priceReducedCountData: number[][] = [];
+  const squareFeetData: number[][] = [];
+  const totalListingCountData: number[][] = [];
 
   /* 
     Last Index of Data contains a note, first index of data contains columns titles so ignore these.
@@ -53,8 +54,9 @@ export const formatMonthlyInventoryData = (
       activeListingCountData.push([date, Number(dataPoint[5])]);
       daysOnMarketData.push([date, Number(dataPoint[8])]);
       newListingCountData.push([date, Number(dataPoint[11])]);
-      priceIncreasedCountData.push([date, Number(dataPoint[14])]);
       priceReducedCountData.push([date, Number(dataPoint[17])]);
+      squareFeetData.push([date, Number(dataPoint[23])]);
+      totalListingCountData.push([date, Number(dataPoint[32])]);
     }
   }
 
@@ -63,8 +65,9 @@ export const formatMonthlyInventoryData = (
     activeListingCountData,
     daysOnMarketData,
     newListingCountData,
-    priceIncreasedCountData,
     priceReducedCountData,
+    squareFeetData,
+    totalListingCountData,
   };
 };
 

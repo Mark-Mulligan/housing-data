@@ -17,6 +17,8 @@ interface IProps {
     newListingCountData: number[][];
     priceIncreasedCountData: number[][];
     priceReducedCountData: number[][];
+    squareFeetData: number[][];
+    totalListingCountData: number[][];
   };
 }
 
