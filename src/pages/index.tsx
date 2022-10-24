@@ -3,8 +3,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 // Data
-import { getMedianListingPriceYYData } from "../data/housingDataMethods";
-import { createChartData } from "../data/housingDataMethods";
+import { formatInventoryData } from "../data/housingDataMethods";
+import { housingInventory } from "../data/housingData";
 
 // Highcharts
 import React from "react";
@@ -18,11 +18,117 @@ import HighchartsExporting from "highcharts/modules/exporting";
 // }
 
 interface IProps {
-  chartOptions: any;
+  medianListingCountYY: number[][];
+  medianListingPriceYY: number[][];
+  medianDaysOnMarketByDay: number[][];
+  medianDaysOnMarketAsPct: number[][];
 }
 
-const Home: NextPage<IProps> = ({ chartOptions }) => {
-  console.log(chartOptions);
+const Home: NextPage<IProps> = ({
+  medianListingPriceYY,
+  medianListingCountYY,
+  medianDaysOnMarketByDay,
+  medianDaysOnMarketAsPct,
+}) => {
+  const generateWeeklyInventoryChartOptions = () => {
+    return {
+      title: {
+        text: "Housing Inventory Data",
+      },
+      legend: {
+        align: "left",
+        verticalAlign: "top",
+      },
+      yAxis: [
+        {
+          opposite: false,
+          labels: {
+            format: "{value} %",
+          },
+          title: {
+            text: "% Change (Y/Y)",
+          },
+        },
+        {
+          title: {
+            text: "Days Change (Y/Y)",
+          },
+          labels: {
+            format: "{value} days",
+          },
+        },
+      ],
+
+      xAxis: {
+        accessibility: {
+          rangeDescription: "Range: 2010 to 2020",
+        },
+      },
+
+      rangeSelector: {
+        selected: 1,
+      },
+
+      responsive: {
+        rules: [
+          {
+            condition: {
+              maxWidth: 500,
+            },
+            chartOptions: {
+              legend: {
+                layout: "horizontal",
+                align: "center",
+                verticalAlign: "bottom",
+              },
+            },
+          },
+        ],
+      },
+      tooltip: {
+        shared: true,
+      },
+
+      series: [
+        {
+          name: "Median Listing Price",
+          data: medianListingPriceYY,
+          yAxis: 0,
+          showInNavigator: true,
+          tooltip: {
+            valueSuffix: " %",
+          },
+        },
+        {
+          name: "Median Listing Count",
+          data: medianListingCountYY,
+          yAxis: 0,
+          showInNavigator: true,
+          tooltip: {
+            valueSuffix: " %",
+          },
+        },
+        {
+          name: "Median Days On Market",
+          data: medianDaysOnMarketByDay,
+          showInNavigator: true,
+          yAxis: 1,
+          tooltip: {
+            valueSuffix: " Days",
+          },
+        },
+        {
+          name: "Median Days On Market",
+          data: medianDaysOnMarketAsPct,
+          showInNavigator: true,
+          yAxis: 0,
+          tooltip: {
+            valueSuffix: " %",
+          },
+        },
+      ],
+    };
+  };
 
   return (
     <>
@@ -40,7 +146,7 @@ const Home: NextPage<IProps> = ({ chartOptions }) => {
           <HighchartsReact
             highcharts={Highcharts}
             constructorType={"stockChart"}
-            options={chartOptions}
+            options={generateWeeklyInventoryChartOptions()}
           />
         </div>
       </main>
@@ -51,10 +157,19 @@ const Home: NextPage<IProps> = ({ chartOptions }) => {
 export default Home;
 
 export const getStaticProps = async () => {
-  const medianListingPriceData = getMedianListingPriceYYData();
-  const chartOptions = createChartData(medianListingPriceData);
+  const {
+    medianDaysOnMarketByDay,
+    medianListingCountYY,
+    medianListingPriceYY,
+    medianDaysOnMarketAsPct,
+  } = formatInventoryData(housingInventory);
 
   return {
-    props: { chartOptions },
+    props: {
+      medianListingCountYY,
+      medianListingPriceYY,
+      medianDaysOnMarketByDay,
+      medianDaysOnMarketAsPct,
+    },
   };
 };

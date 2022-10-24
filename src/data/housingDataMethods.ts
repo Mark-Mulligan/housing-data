@@ -22,73 +22,34 @@ const dateToDataPoint = (date: string) => {
   return dateObj.getTime();
 };
 
-export const getMedianListingPriceYYData = () => {
-  let result: number[][] = [];
-
-  const housingInventoryReversed: housingInventoryDataPoint[] = [];
+export const formatInventoryData = (
+  housingInventory: housingInventoryDataPoint[]
+) => {
+  const medianListingPriceYY: number[][] = [];
+  const medianListingCountYY: number[][] = [];
+  const medianDaysOnMarketByDay: number[][] = [];
+  const medianDaysOnMarketAsPct: number[][] = [];
 
   for (let i = housingInventory.length - 1; i > 0; i--) {
     let dataPoint = housingInventory[i];
     if (dataPoint) {
-      housingInventoryReversed.push(dataPoint);
+      let date = dateToDataPoint(dataPoint[0]);
+      let listingPriceChangeYY = percentToDataPoint(dataPoint[2]);
+      let listingCountChangeYY = percentToDataPoint(dataPoint[3]);
+      let daysOnMarketByDay = Number(dataPoint[4]);
+      let daysOnMarketAsPct = percentToDataPoint(dataPoint[5]);
+
+      medianListingPriceYY.push([date, listingPriceChangeYY]);
+      medianListingCountYY.push([date, listingCountChangeYY]);
+      medianDaysOnMarketByDay.push([date, daysOnMarketByDay]);
+      medianDaysOnMarketAsPct.push([date, daysOnMarketAsPct]);
     }
   }
 
-  housingInventoryReversed.forEach((dataPoint: any, index: number) => {
-    if (index > 0) {
-      result.push([
-        dateToDataPoint(dataPoint[0]),
-        percentToDataPoint(dataPoint[2]),
-      ]);
-    }
-  });
-
-  return result;
-};
-
-export const createChartData = (data: number[][]) => {
   return {
-    title: {
-      text: "My stock chart",
-    },
-    yAxis: {
-      title: {
-        text: "%",
-      },
-    },
-
-    xAxis: {
-      accessibility: {
-        rangeDescription: "Range: 2010 to 2020",
-      },
-    },
-
-    rangeSelector: {
-      selected: 1,
-    },
-
-    responsive: {
-      rules: [
-        {
-          condition: {
-            maxWidth: 500,
-          },
-          chartOptions: {
-            legend: {
-              layout: "horizontal",
-              align: "center",
-              verticalAlign: "bottom",
-            },
-          },
-        },
-      ],
-    },
-
-    series: [
-      {
-        name: "Median Listing Price (Y/Y)",
-        data: getMedianListingPriceYYData(),
-      },
-    ],
+    medianListingPriceYY,
+    medianListingCountYY,
+    medianDaysOnMarketByDay,
+    medianDaysOnMarketAsPct,
   };
 };
