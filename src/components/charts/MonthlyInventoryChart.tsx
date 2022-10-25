@@ -1,9 +1,9 @@
 // React
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 // Highcharts
 import React from "react";
-import Highcharts, { chart } from "highcharts/highstock";
+import Highcharts, { Series } from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import HighchartsExporting from "highcharts/modules/exporting";
 
@@ -50,6 +50,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ data }) => {
       daysOnMarket: false,
       squareFeet: false,
     });
+  const [weeklyChartOptions, setWeeklyChartOptions] = useState<any>({});
 
   const handleChartButtonClick = (key: keyof DisplayedChartData) => {
     setDisplayedChartData((previousState) => ({
@@ -58,57 +59,140 @@ const MonthlyInventoryChart: FC<IProps> = ({ data }) => {
     }));
   };
 
+  const generateYAxis = () => {
+    const {
+      listingPrice,
+      totalListings,
+      activeListings,
+      newListings,
+      priceReduced,
+      daysOnMarket,
+      squareFeet,
+    } = displayedChartData;
+    const yAxis = [];
+
+    if (listingPrice) {
+      yAxis.push({
+        opposite: false,
+        labels: {
+          format: "{value} $",
+        },
+        title: {
+          text: "Price $",
+        },
+      });
+    }
+
+    if (totalListings || newListings || activeListings || priceReduced) {
+      yAxis.push({
+        title: {
+          text: "Listings",
+        },
+        labels: {
+          format: "{value}",
+        },
+      });
+    }
+
+    if (daysOnMarket) {
+      yAxis.push({
+        title: {
+          text: "Days",
+        },
+        labels: {
+          format: "{value}",
+        },
+      });
+    }
+
+    if (squareFeet) {
+      yAxis.push({
+        opposite: false,
+        title: {
+          text: "Square Feet",
+        },
+        labels: {
+          format: "{value}",
+        },
+      });
+    }
+  };
+
   const generateSeries = () => {
+    const {
+      listingPrice,
+      totalListings,
+      activeListings,
+      newListings,
+      priceReduced,
+      daysOnMarket,
+      squareFeet,
+    } = displayedChartData;
     const series = [];
 
-    series.push({
-      name: "Listing Price",
-      yAxis: 0,
-      data: data.listingPriceData,
-      showInNavigator: true,
-      tooltip: { valueSuffix: " $" },
-    });
+    if (listingPrice) {
+      series.push({
+        name: "Listing Price",
+        yAxis: 0,
+        data: data.listingPriceData,
+        showInNavigator: true,
+        tooltip: { valueSuffix: " $" },
+      });
+    }
 
-    series.push({
-      name: "Active Listings",
-      yAxis: 1,
-      data: data.activeListingCountData,
-      showInNavigator: true,
-    });
+    if (activeListings) {
+      series.push({
+        name: "Active Listings",
+        yAxis: 1,
+        data: data.activeListingCountData,
+        showInNavigator: true,
+      });
+    }
 
-    series.push({
-      name: "Days on Market",
-      yAxis: 2,
-      data: data.daysOnMarketData,
-      showInNavigator: true,
-    });
+    if (daysOnMarket) {
+      series.push({
+        name: "Days on Market",
+        yAxis: 2,
+        data: data.daysOnMarketData,
+        showInNavigator: true,
+      });
+    }
 
-    series.push({
-      name: "New Listings",
-      yAxis: 1,
-      data: data.newListingCountData,
-      showInNavigator: true,
-    });
+    if (newListings) {
+      series.push({
+        name: "New Listings",
+        yAxis: 1,
+        data: data.newListingCountData,
+        showInNavigator: true,
+      });
+    }
 
-    series.push({
-      name: "Price Reduced",
-      yAxis: 1,
-      data: data.priceReducedCountData,
-      showInNavigator: true,
-    });
+    if (priceReduced) {
+      series.push({
+        name: "Price Reduced",
+        yAxis: 1,
+        data: data.priceReducedCountData,
+        showInNavigator: true,
+      });
+    }
 
-    series.push({
-      name: "Square FT",
-      yAxis: 3,
-      data: data.squareFeetData,
-      showInNavigator: true,
-    });
-    series.push({
-      name: "Total Listings",
-      yAxis: 1,
-      data: data.totalListingCountData,
-      showInNavigator: true,
-    });
+    if (squareFeet) {
+      series.push({
+        name: "Square FT",
+        yAxis: 3,
+        data: data.squareFeetData,
+        showInNavigator: true,
+      });
+    }
+
+    if (totalListings) {
+      series.push({
+        name: "Total Listings",
+        yAxis: 1,
+        data: data.totalListingCountData,
+        showInNavigator: true,
+      });
+    }
 
     return series;
   };
@@ -122,55 +206,16 @@ const MonthlyInventoryChart: FC<IProps> = ({ data }) => {
         align: "left",
         verticalAlign: "top",
       },
-      yAxis: [
-        {
-          opposite: false,
-          labels: {
-            format: "{value} $",
-          },
-          title: {
-            text: "Price $",
-          },
-        },
-        {
-          title: {
-            text: "Listings",
-          },
-          labels: {
-            format: "{value}",
-          },
-        },
-        {
-          title: {
-            text: "Days",
-          },
-          labels: {
-            format: "{value}",
-          },
-        },
-        {
-          opposite: false,
-          title: {
-            text: "Square Feet",
-          },
-          labels: {
-            format: "{value}",
-          },
-        },
-      ],
-
+      yAxis: generateYAxis(),
       xAxis: {
         accessibility: {
           rangeDescription: "Range: 2010 to 2020",
         },
       },
-
       series: generateSeries(),
-
       rangeSelector: {
         selected: 1,
       },
-
       responsive: {
         rules: [
           {
@@ -193,6 +238,11 @@ const MonthlyInventoryChart: FC<IProps> = ({ data }) => {
     };
   };
 
+  useEffect(() => {
+    setWeeklyChartOptions(generateWeeklyInventoryChartOptions());
+    console.log(weeklyChartOptions);
+  }, [displayedChartData, data]);
+
   return (
     <div>
       <div style={{ height: 500 }}>
@@ -200,7 +250,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ data }) => {
           highcharts={Highcharts}
           constructorType={"stockChart"}
           containerProps={{ style: { height: "100%" } }}
-          options={generateWeeklyInventoryChartOptions()}
+          options={weeklyChartOptions}
         />
       </div>
       <div className="text-center">

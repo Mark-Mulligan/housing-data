@@ -7,18 +7,19 @@ import { formatMonthlyInventoryData } from "../data/housingDataMethods";
 import { monthlyHousingInventory } from "../data/housingData";
 
 // Components
-import MonthlyInventoryChart from "../components/charts/MonthlyInventoryChart";
+import MonthlyInventoryChart2 from "../components/charts/MonthlyInventoryChart2";
 
 interface IProps {
   monthlyData: {
-    listingPriceData: number[][];
-    activeListingCountData: number[][];
-    daysOnMarketData: number[][];
-    newListingCountData: number[][];
-    priceIncreasedCountData: number[][];
-    priceReducedCountData: number[][];
-    squareFeetData: number[][];
-    totalListingCountData: number[][];
+    dateData: string[];
+    listingPriceData: number[];
+    activeListingCountData: number[];
+    daysOnMarketData: number[];
+    newListingCountData: number[];
+    priceIncreasedCountData: number[];
+    priceReducedCountData: number[];
+    squareFeetData: number[];
+    totalListingCountData: number[];
   };
 }
 
@@ -35,7 +36,7 @@ const Home: NextPage<IProps> = ({ monthlyData }) => {
         <h1 className="text-center text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           US Housing Data
         </h1>
-        <MonthlyInventoryChart data={monthlyData} />
+        <MonthlyInventoryChart2 monthlyData={monthlyData} />
       </main>
     </>
   );
