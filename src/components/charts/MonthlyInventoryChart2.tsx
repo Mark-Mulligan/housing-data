@@ -1,5 +1,6 @@
 // React
-import React, { useState, FC } from "react";
+import { list } from "postcss";
+import React, { useState, FC, useEffect } from "react";
 
 // Recharts
 import {
@@ -17,6 +18,36 @@ import {
 // Components
 import CustomLabel from "./CustomLabel";
 
+const formatChartData = (monthlyData: MonthlyData) => {
+  const {
+    dateData,
+    listingPriceData,
+    totalListingCountData,
+    activeListingCountData,
+    newListingCountData,
+    priceReducedCountData,
+    daysOnMarketData,
+    squareFeetData,
+  } = monthlyData;
+
+  const result: MonthlyInventoryChartDataPoint[] = [];
+
+  for (let i = 0; i < dateData.length; i++) {
+    result.push({
+      name: dateData[i] || "",
+      listingPrice: listingPriceData[i],
+      totalListings: totalListingCountData[i],
+      activeListings: activeListingCountData[i],
+      newListings: newListingCountData[i],
+      priceReduced: priceReducedCountData[i],
+      daysOnMarket: daysOnMarketData[i],
+      squareFeet: squareFeetData[i],
+    });
+  }
+
+  return result;
+};
+
 const setInitialChartData = (
   dateData: string[],
   listingPriceData: number[]
@@ -24,11 +55,22 @@ const setInitialChartData = (
   const result = [];
 
   for (let i = 0; i < dateData.length; i++) {
-    result.push({ name: dateData[i], listingPrice: listingPriceData[i] });
+    result.push({ name: dateData[i] || "", listingPrice: listingPriceData[i] });
   }
 
   return result;
 };
+
+interface MonthlyData {
+  dateData: string[];
+  listingPriceData: number[];
+  activeListingCountData: number[];
+  daysOnMarketData: number[];
+  newListingCountData: number[];
+  priceReducedCountData: number[];
+  squareFeetData: number[];
+  totalListingCountData: number[];
+}
 
 interface IProps {
   monthlyData: {
@@ -37,7 +79,6 @@ interface IProps {
     activeListingCountData: number[];
     daysOnMarketData: number[];
     newListingCountData: number[];
-    priceIncreasedCountData: number[];
     priceReducedCountData: number[];
     squareFeetData: number[];
     totalListingCountData: number[];
@@ -54,14 +95,25 @@ interface DisplayedChartData {
   squareFeet: boolean;
 }
 
+interface MonthlyInventoryChartDataPoint {
+  name: string; // date
+  listingPrice?: number;
+  totalListings?: number;
+  activeListings?: number;
+  newListings?: number;
+  priceReduced?: number;
+  daysOnMarket?: number;
+  squareFeet?: number;
+}
+
 const activeBtnCSS =
   "text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2";
 const nonActiveBtnCSS =
   "text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2";
 
 const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
-  const [chartData, setChartData] = useState(
-    setInitialChartData(monthlyData.dateData, monthlyData.listingPriceData)
+  const [chartData, setChartData] = useState<MonthlyInventoryChartDataPoint[]>(
+    []
   );
 
   const [displayedChartData, setDisplayedChartData] =
@@ -82,6 +134,50 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
     }));
   };
 
+  const updateChartData = () => {
+    const {
+      dateData,
+      listingPriceData,
+      totalListingCountData,
+      activeListingCountData,
+      newListingCountData,
+      priceReducedCountData,
+      daysOnMarketData,
+      squareFeetData,
+    } = monthlyData;
+    const result: MonthlyInventoryChartDataPoint[] = [];
+
+    for (let i = 0; i < dateData.length; i++) {
+      const dataPoint: MonthlyInventoryChartDataPoint = {
+        name: dateData[i] || "",
+      };
+
+      if (displayedChartData.listingPrice)
+        dataPoint.listingPrice = listingPriceData[i];
+      if (displayedChartData.totalListings)
+        dataPoint.totalListings = totalListingCountData[i];
+      if (displayedChartData.activeListings)
+        dataPoint.activeListings = activeListingCountData[i];
+      if (displayedChartData.newListings)
+        dataPoint.newListings = newListingCountData[i];
+      if (displayedChartData.priceReduced)
+        dataPoint.priceReduced = priceReducedCountData[i];
+      if (displayedChartData.daysOnMarket)
+        dataPoint.daysOnMarket = daysOnMarketData[i];
+      if (displayedChartData.squareFeet)
+        dataPoint.squareFeet = squareFeetData[i];
+
+      result.push(dataPoint);
+    }
+
+    console.log(result);
+    setChartData(result);
+  };
+
+  useEffect(() => {
+    updateChartData();
+  }, [displayedChartData]);
+
   return (
     <div>
       <div style={{ height: 500, width: "100%" }}>
@@ -99,17 +195,87 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis yAxisId="price">
-              <Label dx={-20} value="Price" angle={-90} position="insideLeft" />
+            {displayedChartData.listingPrice && (
+              <YAxis yAxisId="price">
+                <Label
+                  dx={-20}
+                  value="Price"
+                  angle={-90}
+                  position="insideLeft"
+                />
+              </YAxis>
+            )}
+            <YAxis yAxisId="listings">
+              <Label
+                dx={-20}
+                value="Listings"
+                angle={-90}
+                position="insideLeft"
+              />
             </YAxis>
+            {/* {displayedChartData.totalListings ||
+              displayedChartData.activeListings ||
+              displayedChartData.newListings ||
+              (displayedChartData.priceReduced && (
+                <YAxis yAxisId="listings">
+                  <Label
+                    dx={-20}
+                    value="Listings"
+                    angle={-90}
+                    position="insideLeft"
+                  />
+                </YAxis>
+              ))} */}
+            {displayedChartData.daysOnMarket && (
+              <YAxis yAxisId="days">
+                <Label
+                  dx={-20}
+                  value="Days"
+                  angle={-90}
+                  position="insideLeft"
+                />
+              </YAxis>
+            )}
+            {displayedChartData.squareFeet && (
+              <YAxis yAxisId="feet">
+                <Label dx={-20} value="ft" angle={-90} position="insideLeft" />
+              </YAxis>
+            )}
+
             <Tooltip />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="listingPrice"
-              stroke="#8884d8"
-              yAxisId="price"
-            />
+            {displayedChartData.listingPrice && (
+              <Line
+                type="monotone"
+                dataKey="listingPrice"
+                stroke="#8884d8"
+                yAxisId="price"
+              />
+            )}
+            {displayedChartData.totalListings && (
+              <Line
+                type="monotone"
+                dataKey="totalListings"
+                stroke="#7c1158"
+                yAxisId="listings"
+              />
+            )}
+            {displayedChartData.activeListings && (
+              <Line
+                type="monotone"
+                dataKey="activeListings"
+                stroke="#0d88e6"
+                yAxisId="listings"
+              />
+            )}
+            {displayedChartData.newListings && (
+              <Line
+                type="monotone"
+                dataKey="newListings"
+                stroke="#5ad45a"
+                yAxisId="listings"
+              />
+            )}
           </LineChart>
         </ResponsiveContainer>
       </div>
