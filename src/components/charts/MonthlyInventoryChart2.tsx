@@ -86,6 +86,18 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
     }));
   };
 
+  const hideListingsYAxis = () => {
+    if (
+      displayedChartData.totalListings ||
+      displayedChartData.newListings ||
+      displayedChartData.priceReduced
+    ) {
+      return false;
+    }
+
+    return true;
+  };
+
   const updateChartData = () => {
     const {
       dateData,
@@ -144,17 +156,12 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            {displayedChartData.listingPrice && (
-              <YAxis yAxisId="price">
-                <Label
-                  dx={-20}
-                  value="Price"
-                  angle={-90}
-                  position="insideLeft"
-                />
-              </YAxis>
-            )}
-            <YAxis yAxisId="listings">
+
+            <YAxis yAxisId="price" hide={!displayedChartData.listingPrice}>
+              <Label dx={-20} value="Price" angle={-90} position="insideLeft" />
+            </YAxis>
+
+            <YAxis yAxisId="listings" hide={hideListingsYAxis()}>
               <Label
                 dx={-20}
                 value="Listings"
@@ -162,37 +169,20 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
                 position="insideLeft"
               />
             </YAxis>
-            <YAxis yAxisId="feet" orientation="right">
+            <YAxis
+              yAxisId="feet"
+              orientation="right"
+              hide={!displayedChartData.squareFeet}
+            >
               <Label dx={-20} value="FT" angle={90} position="outside" />
             </YAxis>
-            {/* {displayedChartData.totalListings ||
-              displayedChartData.activeListings ||
-              displayedChartData.newListings ||
-              (displayedChartData.priceReduced && (
-                <YAxis yAxisId="listings">
-                  <Label
-                    dx={-20}
-                    value="Listings"
-                    angle={-90}
-                    position="insideLeft"
-                  />
-                </YAxis>
-              ))} */}
-            {displayedChartData.daysOnMarket && (
-              <YAxis yAxisId="days">
-                <Label
-                  dx={-20}
-                  value="Days"
-                  angle={-90}
-                  position="insideLeft"
-                />
-              </YAxis>
-            )}
-            {displayedChartData.squareFeet && (
-              <YAxis yAxisId="feet">
-                <Label dx={-20} value="ft" angle={-90} position="insideLeft" />
-              </YAxis>
-            )}
+            <YAxis
+              yAxisId="days"
+              orientation="right"
+              hide={!displayedChartData.daysOnMarket}
+            >
+              <Label dx={-20} value="Days" angle={90} position="outside" />
+            </YAxis>
 
             <Tooltip />
             <Legend />
@@ -200,8 +190,9 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
               <Line
                 type="monotone"
                 dataKey="listingPrice"
-                stroke="#8884d8"
+                stroke="#5ad45a"
                 yAxisId="price"
+                dot={false}
               />
             )}
             {displayedChartData.totalListings && (
@@ -210,14 +201,16 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
                 dataKey="totalListings"
                 stroke="#7c1158"
                 yAxisId="listings"
+                dot={false}
               />
             )}
             {displayedChartData.newListings && (
               <Line
                 type="monotone"
                 dataKey="newListings"
-                stroke="#5ad45a"
+                stroke="#8884d8"
                 yAxisId="listings"
+                dot={false}
               />
             )}
             {displayedChartData.priceReduced && (
@@ -226,6 +219,16 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
                 dataKey="priceReduced"
                 stroke="#0d88e6"
                 yAxisId="listings"
+                dot={false}
+              />
+            )}
+            {displayedChartData.daysOnMarket && (
+              <Line
+                type="monotone"
+                dataKey="daysOnMarket"
+                stroke="#ebdc78"
+                yAxisId="days"
+                dot={false}
               />
             )}
             {displayedChartData.squareFeet && (
@@ -234,6 +237,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
                 dataKey="squareFeet"
                 stroke="#00b7c7"
                 yAxisId="feet"
+                dot={false}
               />
             )}
           </LineChart>
