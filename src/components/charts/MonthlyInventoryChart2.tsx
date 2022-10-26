@@ -157,32 +157,29 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
 
-            <YAxis yAxisId="price" hide={!displayedChartData.listingPrice}>
-              <Label dx={-20} value="Price" angle={-90} position="insideLeft" />
-            </YAxis>
+            <YAxis
+              yAxisId="price"
+              unit="$"
+              hide={!displayedChartData.listingPrice}
+              width={75}
+              domain={["auto", "auto"]}
+            />
 
-            <YAxis yAxisId="listings" hide={hideListingsYAxis()}>
-              <Label
-                dx={-20}
-                value="Listings"
-                angle={-90}
-                position="insideLeft"
-              />
-            </YAxis>
+            <YAxis yAxisId="listings" hide={hideListingsYAxis()} />
+
             <YAxis
               yAxisId="feet"
+              unit="ft"
               orientation="right"
               hide={!displayedChartData.squareFeet}
-            >
-              <Label dx={-20} value="FT" angle={90} position="outside" />
-            </YAxis>
+            />
+
             <YAxis
               yAxisId="days"
               orientation="right"
+              unit="days"
               hide={!displayedChartData.daysOnMarket}
-            >
-              <Label dx={-20} value="Days" angle={90} position="outside" />
-            </YAxis>
+            />
 
             <Tooltip />
             <Legend />
