@@ -18,53 +18,9 @@ import {
 // Components
 import CustomLabel from "./CustomLabel";
 
-const formatChartData = (monthlyData: MonthlyData) => {
-  const {
-    dateData,
-    listingPriceData,
-    totalListingCountData,
-    activeListingCountData,
-    newListingCountData,
-    priceReducedCountData,
-    daysOnMarketData,
-    squareFeetData,
-  } = monthlyData;
-
-  const result: MonthlyInventoryChartDataPoint[] = [];
-
-  for (let i = 0; i < dateData.length; i++) {
-    result.push({
-      name: dateData[i] || "",
-      listingPrice: listingPriceData[i],
-      totalListings: totalListingCountData[i],
-      activeListings: activeListingCountData[i],
-      newListings: newListingCountData[i],
-      priceReduced: priceReducedCountData[i],
-      daysOnMarket: daysOnMarketData[i],
-      squareFeet: squareFeetData[i],
-    });
-  }
-
-  return result;
-};
-
-const setInitialChartData = (
-  dateData: string[],
-  listingPriceData: number[]
-) => {
-  const result = [];
-
-  for (let i = 0; i < dateData.length; i++) {
-    result.push({ name: dateData[i] || "", listingPrice: listingPriceData[i] });
-  }
-
-  return result;
-};
-
 interface MonthlyData {
   dateData: string[];
   listingPriceData: number[];
-  activeListingCountData: number[];
   daysOnMarketData: number[];
   newListingCountData: number[];
   priceReducedCountData: number[];
@@ -76,7 +32,6 @@ interface IProps {
   monthlyData: {
     dateData: string[];
     listingPriceData: number[];
-    activeListingCountData: number[];
     daysOnMarketData: number[];
     newListingCountData: number[];
     priceReducedCountData: number[];
@@ -88,7 +43,6 @@ interface IProps {
 interface DisplayedChartData {
   listingPrice: boolean;
   totalListings: boolean;
-  activeListings: boolean;
   newListings: boolean;
   priceReduced: boolean;
   daysOnMarket: boolean;
@@ -99,7 +53,6 @@ interface MonthlyInventoryChartDataPoint {
   name: string; // date
   listingPrice?: number;
   totalListings?: number;
-  activeListings?: number;
   newListings?: number;
   priceReduced?: number;
   daysOnMarket?: number;
@@ -120,7 +73,6 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
     useState<DisplayedChartData>({
       listingPrice: true,
       totalListings: false,
-      activeListings: false,
       newListings: false,
       priceReduced: false,
       daysOnMarket: false,
@@ -139,7 +91,6 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
       dateData,
       listingPriceData,
       totalListingCountData,
-      activeListingCountData,
       newListingCountData,
       priceReducedCountData,
       daysOnMarketData,
@@ -156,8 +107,6 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
         dataPoint.listingPrice = listingPriceData[i];
       if (displayedChartData.totalListings)
         dataPoint.totalListings = totalListingCountData[i];
-      if (displayedChartData.activeListings)
-        dataPoint.activeListings = activeListingCountData[i];
       if (displayedChartData.newListings)
         dataPoint.newListings = newListingCountData[i];
       if (displayedChartData.priceReduced)
@@ -213,6 +162,9 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
                 position="insideLeft"
               />
             </YAxis>
+            <YAxis yAxisId="feet" orientation="right">
+              <Label dx={-20} value="FT" angle={90} position="outside" />
+            </YAxis>
             {/* {displayedChartData.totalListings ||
               displayedChartData.activeListings ||
               displayedChartData.newListings ||
@@ -260,20 +212,28 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
                 yAxisId="listings"
               />
             )}
-            {displayedChartData.activeListings && (
-              <Line
-                type="monotone"
-                dataKey="activeListings"
-                stroke="#0d88e6"
-                yAxisId="listings"
-              />
-            )}
             {displayedChartData.newListings && (
               <Line
                 type="monotone"
                 dataKey="newListings"
                 stroke="#5ad45a"
                 yAxisId="listings"
+              />
+            )}
+            {displayedChartData.priceReduced && (
+              <Line
+                type="monotone"
+                dataKey="priceReduced"
+                stroke="#0d88e6"
+                yAxisId="listings"
+              />
+            )}
+            {displayedChartData.squareFeet && (
+              <Line
+                type="monotone"
+                dataKey="squareFeet"
+                stroke="#00b7c7"
+                yAxisId="feet"
               />
             )}
           </LineChart>
@@ -295,14 +255,6 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
           onClick={() => handleChartButtonClick("totalListings")}
         >
           Total Listing
-        </button>
-        <button
-          className={
-            displayedChartData.activeListings ? activeBtnCSS : nonActiveBtnCSS
-          }
-          onClick={() => handleChartButtonClick("activeListings")}
-        >
-          Active Listings
         </button>
         <button
           className={

@@ -41,7 +41,6 @@ export const formatMonthlyInventoryData = (
 ) => {
   const dateData: string[] = [];
   const listingPriceData: number[] = [];
-  const activeListingCountData: number[] = [];
   const daysOnMarketData: number[] = [];
   const newListingCountData: number[] = [];
   const priceReducedCountData: number[] = [];
@@ -57,7 +56,6 @@ export const formatMonthlyInventoryData = (
     if (dataPoint) {
       dateData.push(formatMonthlyDate(dataPoint[0]));
       listingPriceData.push(Number(dataPoint[2]));
-      activeListingCountData.push(Number(dataPoint[5]));
       daysOnMarketData.push(Number(dataPoint[8]));
       newListingCountData.push(Number(dataPoint[11]));
       priceReducedCountData.push(Number(dataPoint[17]));
@@ -69,7 +67,6 @@ export const formatMonthlyInventoryData = (
   return {
     dateData,
     listingPriceData,
-    activeListingCountData,
     daysOnMarketData,
     newListingCountData,
     priceReducedCountData,

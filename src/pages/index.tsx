@@ -13,7 +13,6 @@ interface IProps {
   monthlyData: {
     dateData: string[];
     listingPriceData: number[];
-    activeListingCountData: number[];
     daysOnMarketData: number[];
     newListingCountData: number[];
     priceIncreasedCountData: number[];
