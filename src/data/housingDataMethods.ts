@@ -59,7 +59,7 @@ export const formatMonthlyInventoryData = (
       daysOnMarketData.push(Number(dataPoint[8]));
       newListingCountData.push(Number(dataPoint[11]));
       priceReducedCountData.push(Number(dataPoint[17]));
-      squareFeetData.push(Number(dataPoint[23]));
+      squareFeetData.push(Number(dataPoint[26]));
       totalListingCountData.push(Number(dataPoint[32]));
     }
   }
