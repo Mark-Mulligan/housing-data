@@ -7,7 +7,7 @@ import { formatMonthlyInventoryData } from "../data/housingDataMethods";
 import { monthlyHousingInventory } from "../data/housingData";
 
 // Components
-import MonthlyInventoryChart2 from "../components/charts/MonthlyInventoryChart2";
+import MonthlyInventoryChart from "../components/charts/MonthlyInventoryChart";
 
 interface IProps {
   monthlyData: {
@@ -32,10 +32,10 @@ const Home: NextPage<IProps> = ({ monthlyData }) => {
       </Head>
 
       <main className="container mx-auto min-h-screen p-4">
-        <h1 className="text-center text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
+        <h1 className="text-center text-5xl font-extrabold leading-normal text-white md:text-[5rem]">
           US Housing Data
         </h1>
-        <MonthlyInventoryChart2 monthlyData={monthlyData} />
+        <MonthlyInventoryChart monthlyData={monthlyData} />
       </main>
     </>
   );
