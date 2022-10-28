@@ -1,8 +1,14 @@
 import "../styles/globals.css";
 import type { AppType } from "next/dist/shared/lib/utils";
+import Navbar from "../components/ui/Navbar";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Navbar />
+      <Component {...pageProps} />
+    </>
+  );
 };
 
 export default MyApp;
