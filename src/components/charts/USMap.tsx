@@ -1,5 +1,13 @@
+// React
 import React, { useState } from "react";
+
+// Axios
+import axios from "axios";
+
+// D3-Geo
 import { geoCentroid, geoIdentity } from "d3-geo";
+
+// React Simple Maps
 import {
   ComposableMap,
   Geographies,
@@ -88,6 +96,17 @@ const offsets: any = {
 const MapChart = () => {
   const [selectedStateId, setSelectedStateId] = useState("");
 
+  const getStateData = async (stateId: string) => {
+    try {
+      const { data } = await axios.get(
+        `/api/data/monthly-inventory/${stateId}`
+      );
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <ComposableMap projection="geoAlbersUsa">
       <Geographies geography={geoUrl}>
@@ -96,7 +115,12 @@ const MapChart = () => {
             {geographies.map((geo) => (
               <Geography
                 onClick={() => {
-                  console.log(geo.id);
+                  const selectedState = allStates.find((s) => s.val === geo.id);
+
+                  if (selectedState) {
+                    getStateData(selectedState.id);
+                  }
+
                   setSelectedStateId(geo.id);
                 }}
                 key={geo.rsmKey}

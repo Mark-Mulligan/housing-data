@@ -2,6 +2,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 
+// axios
+import axios from "axios";
+
 // Data
 import { formatMonthlyInventoryData } from "../data/housingDataMethods";
 import { monthlyHousingInventory } from "../data/housingData";
