@@ -36,11 +36,21 @@ const Home: NextPage<IProps> = ({ monthlyData }) => {
         <h1 className="text-center text-5xl font-extrabold leading-normal text-white md:text-[5rem]">
           US Housing Data
         </h1>
-        <h2 className="mb-2 text-center text-2xl text-white">
-          Monthly Inventory Data - US
-        </h2>
-        <MonthlyInventoryChart monthlyData={monthlyData} />
-        <USMap />
+        <section className="mb-16">
+          <h2 className="mb-2 text-center text-2xl text-white">
+            Monthly Inventory Data - US
+          </h2>
+          <MonthlyInventoryChart monthlyData={monthlyData} />
+        </section>
+        <section className="relative">
+          <div className="absolute w-full text-center">
+            <h2 className="text-4xl text-white">Data By State</h2>
+          </div>
+
+          <div style={{ maxWidth: 900, margin: "auto" }}>
+            <USMap />
+          </div>
+        </section>
       </main>
     </>
   );
