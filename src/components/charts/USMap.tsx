@@ -1,5 +1,5 @@
-import React from "react";
-import { geoCentroid } from "d3-geo";
+import React, { useState } from "react";
+import { geoCentroid, geoIdentity } from "d3-geo";
 import {
   ComposableMap,
   Geographies,
@@ -86,6 +86,8 @@ const offsets: any = {
 };
 
 const MapChart = () => {
+  const [selectedStateId, setSelectedStateId] = useState("");
+
   return (
     <ComposableMap projection="geoAlbersUsa">
       <Geographies geography={geoUrl}>
@@ -93,10 +95,22 @@ const MapChart = () => {
           <>
             {geographies.map((geo) => (
               <Geography
+                onClick={() => {
+                  console.log(geo.id);
+                  setSelectedStateId(geo.id);
+                }}
                 key={geo.rsmKey}
                 stroke="#FFF"
                 geography={geo}
-                fill="#DDD"
+                fill={selectedStateId === geo.id ? "grey" : "#D3D3D3"}
+                style={{
+                  default: { outline: "none" },
+                  hover: {
+                    outline: "none",
+                    fill: selectedStateId === geo.id ? "grey" : "#e0e0e0",
+                  },
+                  pressed: { outline: "none" },
+                }}
               />
             ))}
             {geographies.map((geo) => {
@@ -118,6 +132,7 @@ const MapChart = () => {
                         subject={centroid}
                         dx={offsets[cur.id][0]}
                         dy={offsets[cur.id][1]}
+                        style={{ fill: "white", color: "white" }}
                       >
                         <text x={4} fontSize={14} alignmentBaseline="middle">
                           {cur.id}
