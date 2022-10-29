@@ -1,6 +1,9 @@
 // React
 import React, { useState } from "react";
 
+// Next
+import { useRouter } from "next/router";
+
 // Axios
 import axios from "axios";
 
@@ -94,18 +97,8 @@ const offsets: any = {
 };
 
 const MapChart = () => {
+  const router = useRouter();
   const [selectedStateId, setSelectedStateId] = useState("");
-
-  const getStateData = async (stateId: string) => {
-    try {
-      const { data } = await axios.get(
-        `/api/data/monthly-inventory/${stateId}`
-      );
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <ComposableMap projection="geoAlbersUsa">
@@ -118,7 +111,7 @@ const MapChart = () => {
                   const selectedState = allStates.find((s) => s.val === geo.id);
 
                   if (selectedState) {
-                    getStateData(selectedState.id);
+                    router.push(`/state?id=${selectedState.id.toLowerCase()}`);
                   }
 
                   setSelectedStateId(geo.id);

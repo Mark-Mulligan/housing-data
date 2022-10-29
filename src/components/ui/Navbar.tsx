@@ -47,7 +47,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/state/tx" passHref={true}>
+              <Link href="/state" passHref={true}>
                 <a className="block rounded py-2 pr-4 pl-3 text-gray-300 md:bg-transparent md:p-0">
                   State
                 </a>
