@@ -55,7 +55,7 @@ export default async function handler(
     const totalListingCountData: number[] = [];
 
     for (let i = formattedData.length - 2; i > 0; i--) {
-      if (formattedData[i][2] === stateId) {
+      if (formattedData[i][2].toLowerCase() === stateId) {
         let dataPoint = formattedData[i];
         dateData.push(formatMonthlyDate(dataPoint[0]));
         stateData.push(dataPoint[1]);

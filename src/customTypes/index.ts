@@ -1,3 +1,23 @@
+export interface MonthlyInventoryChartDataPoint {
+  name: string; // date
+  listingPrice?: number;
+  totalListings?: number;
+  newListings?: number;
+  priceReduced?: number;
+  daysOnMarket?: number;
+  squareFeet?: number;
+}
+
+export interface MonthlyData {
+  dateData: string[];
+  listingPriceData: number[];
+  daysOnMarketData: number[];
+  newListingCountData: number[];
+  priceReducedCountData: number[];
+  squareFeetData: number[];
+  totalListingCountData: number[];
+}
+
 export type MonthlyHousingInventoryDataPoint = [
   string, // "month_date_yyyymm" -- 0,
   string, // "country" -- 1,

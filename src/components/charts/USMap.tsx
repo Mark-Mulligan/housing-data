@@ -110,9 +110,15 @@ const MapChart = () => {
                   const selectedState = allStates.find((s) => s.val === geo.id);
                   if (selectedState) {
                     router.push(
-                      `/state?id=${selectedState.id.toLowerCase()}&val=${
-                        selectedState.val
-                      }`
+                      {
+                        pathname: "/state",
+                        query: {
+                          id: selectedState.id.toLowerCase(),
+                          val: selectedState.val,
+                        },
+                      },
+                      undefined,
+                      { shallow: true }
                     );
                   }
                 }}

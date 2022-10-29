@@ -1,5 +1,4 @@
 // React
-import { list } from "postcss";
 import React, { useState, FC, useEffect } from "react";
 
 // Recharts
@@ -12,32 +11,13 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Label,
 } from "recharts";
 
-// Components
-import CustomLabel from "./CustomLabel";
-
-interface MonthlyData {
-  dateData: string[];
-  listingPriceData: number[];
-  daysOnMarketData: number[];
-  newListingCountData: number[];
-  priceReducedCountData: number[];
-  squareFeetData: number[];
-  totalListingCountData: number[];
-}
+// Custom Types
+import { MonthlyInventoryChartDataPoint, MonthlyData } from "../../customTypes";
 
 interface IProps {
-  monthlyData: {
-    dateData: string[];
-    listingPriceData: number[];
-    daysOnMarketData: number[];
-    newListingCountData: number[];
-    priceReducedCountData: number[];
-    squareFeetData: number[];
-    totalListingCountData: number[];
-  };
+  monthlyData: MonthlyData;
 }
 
 interface DisplayedChartData {
@@ -47,16 +27,6 @@ interface DisplayedChartData {
   priceReduced: boolean;
   daysOnMarket: boolean;
   squareFeet: boolean;
-}
-
-interface MonthlyInventoryChartDataPoint {
-  name: string; // date
-  listingPrice?: number;
-  totalListings?: number;
-  newListings?: number;
-  priceReduced?: number;
-  daysOnMarket?: number;
-  squareFeet?: number;
 }
 
 const activeBtnCSS =
@@ -132,13 +102,12 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
       result.push(dataPoint);
     }
 
-    console.log(result);
     setChartData(result);
   };
 
   useEffect(() => {
     updateChartData();
-  }, [displayedChartData]);
+  }, [displayedChartData, monthlyData]);
 
   return (
     <div>
@@ -226,6 +195,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
             <Legend />
             {displayedChartData.listingPrice && (
               <Line
+                strokeWidth={4}
                 type="monotone"
                 dataKey="listingPrice"
                 stroke="#34d399"
@@ -236,6 +206,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
             )}
             {displayedChartData.totalListings && (
               <Line
+                strokeWidth={4}
                 type="monotone"
                 dataKey="totalListings"
                 stroke="#22d3ee"
@@ -246,6 +217,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
             )}
             {displayedChartData.newListings && (
               <Line
+                strokeWidth={4}
                 type="monotone"
                 dataKey="newListings"
                 stroke="#60a5fa"
@@ -256,6 +228,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
             )}
             {displayedChartData.priceReduced && (
               <Line
+                strokeWidth={4}
                 type="monotone"
                 dataKey="priceReduced"
                 stroke="#a78bfa"
@@ -266,6 +239,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
             )}
             {displayedChartData.daysOnMarket && (
               <Line
+                strokeWidth={4}
                 type="monotone"
                 dataKey="daysOnMarket"
                 stroke="#fbbf24"
@@ -276,6 +250,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
             )}
             {displayedChartData.squareFeet && (
               <Line
+                strokeWidth={4}
                 type="monotone"
                 dataKey="squareFeet"
                 stroke="#f43f5e"
