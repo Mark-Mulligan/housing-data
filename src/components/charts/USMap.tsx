@@ -1,5 +1,5 @@
 // React
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Next
 import { useRouter } from "next/router";
@@ -98,7 +98,6 @@ const offsets: any = {
 
 const MapChart = () => {
   const router = useRouter();
-  const [selectedStateId, setSelectedStateId] = useState("");
 
   return (
     <ComposableMap projection="geoAlbersUsa">
@@ -109,22 +108,30 @@ const MapChart = () => {
               <Geography
                 onClick={() => {
                   const selectedState = allStates.find((s) => s.val === geo.id);
-
                   if (selectedState) {
-                    router.push(`/state?id=${selectedState.id.toLowerCase()}`);
+                    router.push(
+                      `/state?id=${selectedState.id.toLowerCase()}&val=${
+                        selectedState.val
+                      }`
+                    );
                   }
-
-                  setSelectedStateId(geo.id);
                 }}
                 key={geo.rsmKey}
                 stroke="#FFF"
                 geography={geo}
-                fill={selectedStateId === geo.id ? "grey" : "#D3D3D3"}
+                fill={
+                  router?.query.val === geo.id.toLowerCase()
+                    ? "grey"
+                    : "#D3D3D3"
+                }
                 style={{
                   default: { outline: "none" },
                   hover: {
                     outline: "none",
-                    fill: selectedStateId === geo.id ? "grey" : "#e0e0e0",
+                    fill:
+                      router?.query.val === geo.id.toLowerCase()
+                        ? "grey"
+                        : "#e0e0e0",
                   },
                   pressed: { outline: "none" },
                 }}

@@ -16,6 +16,13 @@ const StatePage = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (router.query.id) {
+      console.log(router.query.id);
+    }
+  }, [router.query]);
+
   return (
     <main className="relative mt-4">
       <div className="absolute w-full text-center">
