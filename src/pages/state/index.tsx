@@ -25,7 +25,6 @@ const StatePage = () => {
       const { data } = await axios.get(
         `/api/data/monthly-inventory/${stateId}`
       );
-      console.log(data);
       return data;
     } catch (err) {
       console.log(err);

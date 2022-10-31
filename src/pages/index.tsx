@@ -5,13 +5,14 @@ import Head from "next/head";
 // axios
 import axios from "axios";
 
+// csv-parse
+import { parse } from "csv-parse/sync";
+
 // Data
 import { formatMonthlyInventoryData } from "../data/housingDataMethods";
-import { monthlyHousingInventory } from "../data/housingData";
 
 // Components
 import MonthlyInventoryChart from "../components/charts/MonthlyInventoryChart";
-import USMap from "../components/charts/USMap";
 
 interface IProps {
   monthlyData: {
@@ -53,7 +54,11 @@ const Home: NextPage<IProps> = ({ monthlyData }) => {
 export default Home;
 
 export const getStaticProps = async () => {
-  const monthlyData = formatMonthlyInventoryData(monthlyHousingInventory);
+  const { data } = await axios.get(
+    "https://econdata.s3-us-west-2.amazonaws.com/Reports/Core/RDC_Inventory_Core_Metrics_Country_History.csv"
+  );
+  const formattedData = parse(data);
+  const monthlyData = formatMonthlyInventoryData(formattedData);
 
   return {
     props: {
