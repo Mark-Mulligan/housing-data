@@ -15,6 +15,9 @@ import USMap from "../../components/charts/USMap";
 import MonthlyInventoryChart from "../../components/charts/MonthlyInventoryChart";
 import LoadingScreen from "../../components/ui/LoadingScreen";
 
+// Utils
+import { getStateNameFromVal } from "../../utils/USMap";
+
 const StatePage = () => {
   const router = useRouter();
   const [chartData, setChartData] = useState<MonthlyData | null>(null);
@@ -57,10 +60,10 @@ const StatePage = () => {
       <div style={{ maxWidth: 850, margin: "auto" }}>
         <USMap />
       </div>
-      {chartData && (
+      {chartData && typeof router.query.val === "string" && (
         <section className="mb-4">
           <h2 className="mb-2 text-center text-2xl text-white">
-            Monthly Inventory Data - {router.query.id}
+            Monthly Inventory Data - {getStateNameFromVal(router.query.val)}
           </h2>
           <MonthlyInventoryChart monthlyData={chartData} />
         </section>
