@@ -13,10 +13,12 @@ import { MonthlyData } from "../../customTypes/";
 // Components
 import USMap from "../../components/charts/USMap";
 import MonthlyInventoryChart from "../../components/charts/MonthlyInventoryChart";
+import LoadingScreen from "../../components/ui/LoadingScreen";
 
 const StatePage = () => {
   const router = useRouter();
   const [chartData, setChartData] = useState<MonthlyData | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getStateData = async (stateId: string) => {
     try {
@@ -31,12 +33,14 @@ const StatePage = () => {
   };
 
   const updateChartData = async (stateId: string) => {
+    setIsLoading(true);
     try {
       const stateMonthlyData = await getStateData(stateId);
       setChartData(stateMonthlyData);
     } catch (err) {
       console.log(err);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -46,12 +50,12 @@ const StatePage = () => {
   }, [router.query]);
 
   return (
-    <main className="relative mt-4">
+    <main className="container relative mx-auto mt-4 pb-8">
       <div className="absolute w-full text-center">
         <h2 className="text-4xl text-white">Data By State</h2>
       </div>
 
-      <div style={{ maxWidth: 900, margin: "auto" }}>
+      <div style={{ maxWidth: 850, margin: "auto" }}>
         <USMap />
       </div>
       {chartData && (
@@ -62,6 +66,7 @@ const StatePage = () => {
           <MonthlyInventoryChart monthlyData={chartData} />
         </section>
       )}
+      {isLoading && <LoadingScreen loadingText="Loading State Data..." />}
     </main>
   );
 };

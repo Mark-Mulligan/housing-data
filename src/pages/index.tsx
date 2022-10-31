@@ -45,15 +45,6 @@ const Home: NextPage<IProps> = ({ monthlyData }) => {
           </h2>
           <MonthlyInventoryChart monthlyData={monthlyData} />
         </section>
-        <section className="relative">
-          <div className="absolute w-full text-center">
-            <h2 className="text-4xl text-white">Data By State</h2>
-          </div>
-
-          <div style={{ maxWidth: 900, margin: "auto" }}>
-            <USMap />
-          </div>
-        </section>
       </main>
     </>
   );
