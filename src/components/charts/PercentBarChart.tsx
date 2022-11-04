@@ -19,7 +19,6 @@ import { PercentBarDataPoint } from "../../customTypes";
 interface IProps {
   containerClasses?: string;
   chartData: PercentBarDataPoint[];
-  title: string;
   barName: string;
   barColor: string;
 }
@@ -27,13 +26,11 @@ interface IProps {
 const PercentBarChart: FC<IProps> = ({
   containerClasses,
   chartData,
-  title,
   barName,
   barColor,
 }) => {
   return (
     <div className={containerClasses ? containerClasses : ""}>
-      <h2 className="text-center text-2xl text-white">{title}</h2>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart width={730} height={250} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />

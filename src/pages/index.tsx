@@ -14,8 +14,8 @@ import { formatMonthlyInventoryData } from "../data/housingDataMethods";
 
 // Components
 import MonthlyInventoryChart from "../components/charts/MonthlyInventoryChart";
-const PercentBarChart = dynamic(
-  import("../components/charts/PercentBarChart"),
+const ChangeOverTimeChart = dynamic(
+  import("../components/charts/ChangeOverTimeChart"),
   { ssr: false }
 );
 // import PercentBarChart from "../components/charts/PercentBarChart";
@@ -73,63 +73,57 @@ const Home: NextPage<IProps> = ({
           </h2>
           <MonthlyInventoryChart monthlyData={monthlyInventoryLineChart} />
         </section>
-        <section className="grid grid-cols-1 lg:grid-cols-2 ">
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={listingPriceChangeMM}
-            title="Median List Price Change M/M"
-            barName="List Price Change M/M"
-            barColor="#34d399"
-          />
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={listingPriceChangeYY}
-            title="Median List Price Change Y/Y"
-            barName="List Price Change Y/Y"
-            barColor="#34d399"
-          />
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={totalListingsChangeMM}
-            title="Total Listings Change M/M"
-            barName="Total Listings Change M/M"
-            barColor="#22d3ee"
-          />
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={totalListingsChangeYY}
-            title="Total Listings Change Y/Y"
-            barName="Total Listings Change Y/Y"
-            barColor="#22d3ee"
-          />
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={priceReducedChangeMM}
-            title="Price Reduced Change M/M"
-            barName="Price Reduced Change M/M"
-            barColor="#a78bfa"
-          />
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={priceReducedChangeYY}
-            title="Price Reduced Change Y/Y"
-            barName="Price Reduced Change Y/Y"
-            barColor="#a78bfa"
-          />
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={daysOnMarketChangeMM}
-            title="Days On Market Change M/M"
-            barName="Days On Market Change M/M"
-            barColor="#fbbf24"
-          />
-          <PercentBarChart
-            containerClasses="mb-12 lg:h-[450px] h-[400px]"
-            chartData={daysOnMarketChangeYY}
-            title="Days On Market Change Y/Y"
-            barName="Days On Market Change Y/Y"
-            barColor="#fbbf24"
-          />
+        <section>
+          <ul className="grid grid-cols-1 lg:grid-cols-2 ">
+            <li>
+              <ChangeOverTimeChart
+                chartContainerClasses="mb-8 lg:h-[450px] h-[400px]"
+                title="Median List Price Change"
+                chart1Data={listingPriceChangeYY}
+                chart2Data={listingPriceChangeMM}
+                bar1Color="#34d399"
+                bar1Name="Median List Price Change Y/Y"
+                bar2Color="#34d399"
+                bar2Name="Median List Price Change M/M"
+              />
+            </li>
+            <li>
+              <ChangeOverTimeChart
+                chartContainerClasses="mb-8 lg:h-[450px] h-[400px]"
+                title="Total Listings Change"
+                chart1Data={totalListingsChangeYY}
+                chart2Data={totalListingsChangeMM}
+                bar1Color="#22d3ee"
+                bar1Name="Total Listings Change Y/Y"
+                bar2Color="#22d3ee"
+                bar2Name="Total Listings Change M/M"
+              />
+            </li>
+            <li>
+              <ChangeOverTimeChart
+                chartContainerClasses="mb-8 lg:h-[450px] h-[400px]"
+                title="Price Reduced Change"
+                chart1Data={priceReducedChangeYY}
+                chart2Data={priceReducedChangeMM}
+                bar1Color="#a78bfa"
+                bar1Name="Price Reduced Change Y/Y"
+                bar2Color="#a78bfa"
+                bar2Name="Price Reduced Change M/M"
+              />
+            </li>
+            <li>
+              <ChangeOverTimeChart
+                chartContainerClasses="mb-8 lg:h-[450px] h-[400px]"
+                title="Days on Market Change"
+                chart1Data={daysOnMarketChangeYY}
+                chart2Data={daysOnMarketChangeMM}
+                bar1Color="#fbbf24"
+                bar1Name="Days On Market Change Y/Y"
+                bar2Color="#fbbf24"
+                bar2Name="Days On Market Change M/M"
+              />
+            </li>
+          </ul>
         </section>
       </main>
     </>
