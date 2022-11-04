@@ -55,6 +55,7 @@ export const formatMonthlyInventoryData = (
   const squareFeetData: number[] = [];
   const totalListingCountData: number[] = [];
   const listingPriceChangeMM: PercentBarDataPoint[] = [];
+  const listingPriceChangeYY: PercentBarDataPoint[] = [];
 
   /* 
     Last Index of Data contains a note, first index of data contains columns titles so ignore these.
@@ -62,15 +63,24 @@ export const formatMonthlyInventoryData = (
   */
   for (let i = housingData.length - 2; i > 0; i--) {
     let dataPoint = housingData[i];
+
     if (dataPoint) {
-      dateData.push(formatMonthlyDate(dataPoint[0]));
+      let date = formatMonthlyDate(dataPoint[0]);
+      dateData.push(date);
       listingPriceData.push(Number(dataPoint[2]));
 
       // There is not data for this point on the earlier months
       if (dataPoint[3] !== "") {
         listingPriceChangeMM.push({
-          date: formatMonthlyDate(dataPoint[0]),
+          date,
           data: decimalToPercent(dataPoint[3]),
+        });
+      }
+
+      if (dataPoint[4] !== "") {
+        listingPriceChangeYY.push({
+          date,
+          data: decimalToPercent(dataPoint[4]),
         });
       }
 
@@ -93,6 +103,7 @@ export const formatMonthlyInventoryData = (
       totalListingCountData,
     },
     listingPriceChangeMM,
+    listingPriceChangeYY,
   };
 };
 

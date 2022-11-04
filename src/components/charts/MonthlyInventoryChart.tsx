@@ -114,8 +114,6 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
       <div style={{ height: 500, width: "100%" }} className="mb-4">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            width={500}
-            height={300}
             data={chartData}
             margin={{
               top: 5,

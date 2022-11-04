@@ -1,6 +1,7 @@
 // Next
 import type { NextPage } from "next";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 
 // axios
 import axios from "axios";
@@ -13,7 +14,11 @@ import { formatMonthlyInventoryData } from "../data/housingDataMethods";
 
 // Components
 import MonthlyInventoryChart from "../components/charts/MonthlyInventoryChart";
-import PercentBarChart from "../components/charts/PercentBarChart";
+const PercentBarChart = dynamic(
+  import("../components/charts/PercentBarChart"),
+  { ssr: false }
+);
+// import PercentBarChart from "../components/charts/PercentBarChart";
 
 // Types
 import { PercentBarDataPoint } from "../customTypes";
@@ -30,14 +35,14 @@ interface IProps {
     totalListingCountData: number[];
   };
   listingPriceChangeMM: PercentBarDataPoint[];
+  listingPriceChangeYY: PercentBarDataPoint[];
 }
 
 const Home: NextPage<IProps> = ({
   monthlyInventoryLineChart,
   listingPriceChangeMM,
+  listingPriceChangeYY,
 }) => {
-  console.log(listingPriceChangeMM);
-
   return (
     <>
       <Head>
@@ -56,8 +61,19 @@ const Home: NextPage<IProps> = ({
           </h2>
           <MonthlyInventoryChart monthlyData={monthlyInventoryLineChart} />
         </section>
-        <section>
-          <PercentBarChart chartData={listingPriceChangeMM} />
+        <section className="grid grid-cols-2">
+          <PercentBarChart
+            chartData={listingPriceChangeMM}
+            title="Median List Price Change M/M"
+            barName="List Price Change M/M"
+            barColor="#34d399"
+          />
+          <PercentBarChart
+            chartData={listingPriceChangeYY}
+            title="Median List Price Change Y/Y"
+            barName="List Price Change Y/Y"
+            barColor="#34d399"
+          />
         </section>
       </main>
     </>
@@ -71,13 +87,17 @@ export const getStaticProps = async () => {
     "https://econdata.s3-us-west-2.amazonaws.com/Reports/Core/RDC_Inventory_Core_Metrics_Country_History.csv"
   );
   const formattedData = parse(data);
-  const { monthlyInventoryLineChart, listingPriceChangeMM } =
-    formatMonthlyInventoryData(formattedData);
+  const {
+    monthlyInventoryLineChart,
+    listingPriceChangeMM,
+    listingPriceChangeYY,
+  } = formatMonthlyInventoryData(formattedData);
 
   return {
     props: {
       monthlyInventoryLineChart,
       listingPriceChangeMM,
+      listingPriceChangeYY,
     },
   };
 };
