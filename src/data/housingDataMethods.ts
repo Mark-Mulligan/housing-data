@@ -1,5 +1,8 @@
 // Custom Types
-import { MonthlyHousingInventoryDataPoint } from "../customTypes";
+import {
+  MonthlyHousingInventoryDataPoint,
+  PercentBarDataPoint,
+} from "../customTypes";
 
 type housingInventoryDataPoint = [
   string,
@@ -25,6 +28,11 @@ const getDateFromMonthlyData = (date: string) => {
   return dateObj.getTime();
 };
 
+const decimalToPercent = (numStr: string) => {
+  let result = Number(numStr) * 100;
+  return Number(result.toFixed(2));
+};
+
 const dateToDataPoint = (date: string) => {
   let dateObj = new Date(date);
   return dateObj.getTime();
@@ -46,6 +54,7 @@ export const formatMonthlyInventoryData = (
   const priceReducedCountData: number[] = [];
   const squareFeetData: number[] = [];
   const totalListingCountData: number[] = [];
+  const listingPriceChangeMM: PercentBarDataPoint[] = [];
 
   /* 
     Last Index of Data contains a note, first index of data contains columns titles so ignore these.
@@ -56,6 +65,15 @@ export const formatMonthlyInventoryData = (
     if (dataPoint) {
       dateData.push(formatMonthlyDate(dataPoint[0]));
       listingPriceData.push(Number(dataPoint[2]));
+
+      // There is not data for this point on the earlier months
+      if (dataPoint[3] !== "") {
+        listingPriceChangeMM.push({
+          date: formatMonthlyDate(dataPoint[0]),
+          data: decimalToPercent(dataPoint[3]),
+        });
+      }
+
       daysOnMarketData.push(Number(dataPoint[8]));
       newListingCountData.push(Number(dataPoint[11]));
       priceReducedCountData.push(Number(dataPoint[17]));
@@ -65,13 +83,16 @@ export const formatMonthlyInventoryData = (
   }
 
   return {
-    dateData,
-    listingPriceData,
-    daysOnMarketData,
-    newListingCountData,
-    priceReducedCountData,
-    squareFeetData,
-    totalListingCountData,
+    monthlyInventoryLineChart: {
+      dateData,
+      listingPriceData,
+      daysOnMarketData,
+      newListingCountData,
+      priceReducedCountData,
+      squareFeetData,
+      totalListingCountData,
+    },
+    listingPriceChangeMM,
   };
 };
 

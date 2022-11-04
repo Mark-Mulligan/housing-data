@@ -18,6 +18,11 @@ export interface MonthlyData {
   totalListingCountData: number[];
 }
 
+export interface PercentBarDataPoint {
+  date: string;
+  data: number;
+}
+
 export type MonthlyHousingInventoryDataPoint = [
   string, // "month_date_yyyymm" -- 0,
   string, // "country" -- 1,

@@ -13,9 +13,13 @@ import { formatMonthlyInventoryData } from "../data/housingDataMethods";
 
 // Components
 import MonthlyInventoryChart from "../components/charts/MonthlyInventoryChart";
+import PercentBarChart from "../components/charts/PercentBarChart";
+
+// Types
+import { PercentBarDataPoint } from "../customTypes";
 
 interface IProps {
-  monthlyData: {
+  monthlyInventoryLineChart: {
     dateData: string[];
     listingPriceData: number[];
     daysOnMarketData: number[];
@@ -25,9 +29,15 @@ interface IProps {
     squareFeetData: number[];
     totalListingCountData: number[];
   };
+  listingPriceChangeMM: PercentBarDataPoint[];
 }
 
-const Home: NextPage<IProps> = ({ monthlyData }) => {
+const Home: NextPage<IProps> = ({
+  monthlyInventoryLineChart,
+  listingPriceChangeMM,
+}) => {
+  console.log(listingPriceChangeMM);
+
   return (
     <>
       <Head>
@@ -44,7 +54,10 @@ const Home: NextPage<IProps> = ({ monthlyData }) => {
           <h2 className="mb-2 text-center text-2xl text-white">
             Monthly Inventory Data - US
           </h2>
-          <MonthlyInventoryChart monthlyData={monthlyData} />
+          <MonthlyInventoryChart monthlyData={monthlyInventoryLineChart} />
+        </section>
+        <section>
+          <PercentBarChart chartData={listingPriceChangeMM} />
         </section>
       </main>
     </>
@@ -58,11 +71,13 @@ export const getStaticProps = async () => {
     "https://econdata.s3-us-west-2.amazonaws.com/Reports/Core/RDC_Inventory_Core_Metrics_Country_History.csv"
   );
   const formattedData = parse(data);
-  const monthlyData = formatMonthlyInventoryData(formattedData);
+  const { monthlyInventoryLineChart, listingPriceChangeMM } =
+    formatMonthlyInventoryData(formattedData);
 
   return {
     props: {
-      monthlyData,
+      monthlyInventoryLineChart,
+      listingPriceChangeMM,
     },
   };
 };
