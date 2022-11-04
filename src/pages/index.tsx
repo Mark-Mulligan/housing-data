@@ -38,6 +38,10 @@ interface IProps {
   listingPriceChangeYY: PercentBarDataPoint[];
   totalListingsChangeMM: PercentBarDataPoint[];
   totalListingsChangeYY: PercentBarDataPoint[];
+  priceReducedChangeMM: PercentBarDataPoint[];
+  priceReducedChangeYY: PercentBarDataPoint[];
+  daysOnMarketChangeMM: PercentBarDataPoint[];
+  daysOnMarketChangeYY: PercentBarDataPoint[];
 }
 
 const Home: NextPage<IProps> = ({
@@ -46,6 +50,10 @@ const Home: NextPage<IProps> = ({
   listingPriceChangeYY,
   totalListingsChangeMM,
   totalListingsChangeYY,
+  priceReducedChangeMM,
+  priceReducedChangeYY,
+  daysOnMarketChangeMM,
+  daysOnMarketChangeYY,
 }) => {
   return (
     <>
@@ -94,6 +102,34 @@ const Home: NextPage<IProps> = ({
             barName="Total Listings Change Y/Y"
             barColor="#22d3ee"
           />
+          <PercentBarChart
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
+            chartData={priceReducedChangeMM}
+            title="Price Reduced Change M/M"
+            barName="Price Reduced Change M/M"
+            barColor="#a78bfa"
+          />
+          <PercentBarChart
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
+            chartData={priceReducedChangeYY}
+            title="Price Reduced Change Y/Y"
+            barName="Price Reduced Change Y/Y"
+            barColor="#a78bfa"
+          />
+          <PercentBarChart
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
+            chartData={daysOnMarketChangeMM}
+            title="Days On Market Change M/M"
+            barName="Days On Market Change M/M"
+            barColor="#fbbf24"
+          />
+          <PercentBarChart
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
+            chartData={daysOnMarketChangeYY}
+            title="Days On Market Change Y/Y"
+            barName="Days On Market Change Y/Y"
+            barColor="#fbbf24"
+          />
         </section>
       </main>
     </>
@@ -113,6 +149,10 @@ export const getStaticProps = async () => {
     listingPriceChangeYY,
     totalListingsChangeMM,
     totalListingsChangeYY,
+    priceReducedChangeMM,
+    priceReducedChangeYY,
+    daysOnMarketChangeMM,
+    daysOnMarketChangeYY,
   } = formatMonthlyInventoryData(formattedData);
 
   return {
@@ -122,6 +162,10 @@ export const getStaticProps = async () => {
       listingPriceChangeYY,
       totalListingsChangeMM,
       totalListingsChangeYY,
+      priceReducedChangeMM,
+      priceReducedChangeYY,
+      daysOnMarketChangeMM,
+      daysOnMarketChangeYY,
     },
   };
 };
