@@ -36,12 +36,16 @@ interface IProps {
   };
   listingPriceChangeMM: PercentBarDataPoint[];
   listingPriceChangeYY: PercentBarDataPoint[];
+  totalListingsChangeMM: PercentBarDataPoint[];
+  totalListingsChangeYY: PercentBarDataPoint[];
 }
 
 const Home: NextPage<IProps> = ({
   monthlyInventoryLineChart,
   listingPriceChangeMM,
   listingPriceChangeYY,
+  totalListingsChangeMM,
+  totalListingsChangeYY,
 }) => {
   return (
     <>
@@ -63,16 +67,32 @@ const Home: NextPage<IProps> = ({
         </section>
         <section className="grid grid-cols-2">
           <PercentBarChart
+            containerClasses="mb-12"
             chartData={listingPriceChangeMM}
             title="Median List Price Change M/M"
             barName="List Price Change M/M"
             barColor="#34d399"
           />
           <PercentBarChart
+            containerClasses="mb-12"
             chartData={listingPriceChangeYY}
             title="Median List Price Change Y/Y"
             barName="List Price Change Y/Y"
             barColor="#34d399"
+          />
+          <PercentBarChart
+            containerClasses="mb-12"
+            chartData={totalListingsChangeMM}
+            title="Total Listings Change M/M"
+            barName="Total Listings Change M/M"
+            barColor="#22d3ee"
+          />
+          <PercentBarChart
+            containerClasses="mb-12"
+            chartData={totalListingsChangeYY}
+            title="Total Listings Change Y/Y"
+            barName="Total Listings Change Y/Y"
+            barColor="#22d3ee"
           />
         </section>
       </main>
@@ -91,6 +111,8 @@ export const getStaticProps = async () => {
     monthlyInventoryLineChart,
     listingPriceChangeMM,
     listingPriceChangeYY,
+    totalListingsChangeMM,
+    totalListingsChangeYY,
   } = formatMonthlyInventoryData(formattedData);
 
   return {
@@ -98,6 +120,8 @@ export const getStaticProps = async () => {
       monthlyInventoryLineChart,
       listingPriceChangeMM,
       listingPriceChangeYY,
+      totalListingsChangeMM,
+      totalListingsChangeYY,
     },
   };
 };

@@ -56,6 +56,8 @@ export const formatMonthlyInventoryData = (
   const totalListingCountData: number[] = [];
   const listingPriceChangeMM: PercentBarDataPoint[] = [];
   const listingPriceChangeYY: PercentBarDataPoint[] = [];
+  const totalListingsChangeMM: PercentBarDataPoint[] = [];
+  const totalListingsChangeYY: PercentBarDataPoint[] = [];
 
   /* 
     Last Index of Data contains a note, first index of data contains columns titles so ignore these.
@@ -89,6 +91,19 @@ export const formatMonthlyInventoryData = (
       priceReducedCountData.push(Number(dataPoint[17]));
       squareFeetData.push(Number(dataPoint[26]));
       totalListingCountData.push(Number(dataPoint[32]));
+
+      if (dataPoint[33] !== "") {
+        totalListingsChangeMM.push({
+          date,
+          data: decimalToPercent(dataPoint[33]),
+        });
+      }
+      if (dataPoint[34] !== "") {
+        totalListingsChangeYY.push({
+          date,
+          data: decimalToPercent(dataPoint[34]),
+        });
+      }
     }
   }
 
@@ -104,6 +119,8 @@ export const formatMonthlyInventoryData = (
     },
     listingPriceChangeMM,
     listingPriceChangeYY,
+    totalListingsChangeMM,
+    totalListingsChangeYY,
   };
 };
 
