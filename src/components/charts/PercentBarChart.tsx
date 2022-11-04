@@ -32,10 +32,7 @@ const PercentBarChart: FC<IProps> = ({
   barColor,
 }) => {
   return (
-    <div
-      style={{ height: 500 }}
-      className={containerClasses ? containerClasses : ""}
-    >
+    <div className={containerClasses ? containerClasses : ""}>
       <h2 className="text-center text-2xl text-white">{title}</h2>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart width={730} height={250} data={chartData}>

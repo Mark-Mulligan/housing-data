@@ -65,30 +65,30 @@ const Home: NextPage<IProps> = ({
           </h2>
           <MonthlyInventoryChart monthlyData={monthlyInventoryLineChart} />
         </section>
-        <section className="grid grid-cols-2">
+        <section className="grid grid-cols-1 lg:grid-cols-2 ">
           <PercentBarChart
-            containerClasses="mb-12"
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
             chartData={listingPriceChangeMM}
             title="Median List Price Change M/M"
             barName="List Price Change M/M"
             barColor="#34d399"
           />
           <PercentBarChart
-            containerClasses="mb-12"
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
             chartData={listingPriceChangeYY}
             title="Median List Price Change Y/Y"
             barName="List Price Change Y/Y"
             barColor="#34d399"
           />
           <PercentBarChart
-            containerClasses="mb-12"
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
             chartData={totalListingsChangeMM}
             title="Total Listings Change M/M"
             barName="Total Listings Change M/M"
             barColor="#22d3ee"
           />
           <PercentBarChart
-            containerClasses="mb-12"
+            containerClasses="mb-12 lg:h-[450px] h-[400px]"
             chartData={totalListingsChangeYY}
             title="Total Listings Change Y/Y"
             barName="Total Listings Change Y/Y"
