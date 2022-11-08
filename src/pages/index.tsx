@@ -38,10 +38,14 @@ interface IProps {
   listingPriceChangeYY: PercentBarDataPoint[];
   totalListingsChangeMM: PercentBarDataPoint[];
   totalListingsChangeYY: PercentBarDataPoint[];
+  newListingsChangeMM: PercentBarDataPoint[];
+  newListingsChangeYY: PercentBarDataPoint[];
   priceReducedChangeMM: PercentBarDataPoint[];
   priceReducedChangeYY: PercentBarDataPoint[];
   daysOnMarketChangeMM: PercentBarDataPoint[];
   daysOnMarketChangeYY: PercentBarDataPoint[];
+  squareFeetChangeMM: PercentBarDataPoint[];
+  squareFeetChangeYY: PercentBarDataPoint[];
 }
 
 const Home: NextPage<IProps> = ({
@@ -50,10 +54,14 @@ const Home: NextPage<IProps> = ({
   listingPriceChangeYY,
   totalListingsChangeMM,
   totalListingsChangeYY,
+  newListingsChangeMM,
+  newListingsChangeYY,
   priceReducedChangeMM,
   priceReducedChangeYY,
   daysOnMarketChangeMM,
   daysOnMarketChangeYY,
+  squareFeetChangeMM,
+  squareFeetChangeYY,
 }) => {
   return (
     <>
@@ -102,6 +110,18 @@ const Home: NextPage<IProps> = ({
             <li>
               <ChangeOverTimeChart
                 chartContainerClasses="mb-8 lg:h-[450px] h-[400px]"
+                title="New Listings Change"
+                chart1Data={newListingsChangeYY}
+                chart2Data={newListingsChangeMM}
+                bar1Color="#60a5fa"
+                bar1Name="New Listings Change Y/Y"
+                bar2Color="#60a5fa"
+                bar2Name="New Listings Change M/M"
+              />
+            </li>
+            <li>
+              <ChangeOverTimeChart
+                chartContainerClasses="mb-8 lg:h-[450px] h-[400px]"
                 title="Price Reduced Change"
                 chart1Data={priceReducedChangeYY}
                 chart2Data={priceReducedChangeMM}
@@ -121,6 +141,18 @@ const Home: NextPage<IProps> = ({
                 bar1Name="Days On Market Change Y/Y"
                 bar2Color="#fbbf24"
                 bar2Name="Days On Market Change M/M"
+              />
+            </li>
+            <li>
+              <ChangeOverTimeChart
+                chartContainerClasses="mb-8 lg:h-[450px] h-[400px]"
+                title="Square Feet Change"
+                chart1Data={squareFeetChangeYY}
+                chart2Data={squareFeetChangeMM}
+                bar1Color="#f43f5e"
+                bar1Name="Square Feet Change Y/Y"
+                bar2Color="#f43f5e"
+                bar2Name="Square Feet Change M/M"
               />
             </li>
           </ul>
@@ -143,10 +175,14 @@ export const getStaticProps = async () => {
     listingPriceChangeYY,
     totalListingsChangeMM,
     totalListingsChangeYY,
+    newListingsChangeMM,
+    newListingsChangeYY,
     priceReducedChangeMM,
     priceReducedChangeYY,
     daysOnMarketChangeMM,
     daysOnMarketChangeYY,
+    squareFeetChangeMM,
+    squareFeetChangeYY,
   } = formatMonthlyInventoryData(formattedData);
 
   return {
@@ -156,10 +192,14 @@ export const getStaticProps = async () => {
       listingPriceChangeYY,
       totalListingsChangeMM,
       totalListingsChangeYY,
+      newListingsChangeMM,
+      newListingsChangeYY,
       priceReducedChangeMM,
       priceReducedChangeYY,
       daysOnMarketChangeMM,
       daysOnMarketChangeYY,
+      squareFeetChangeMM,
+      squareFeetChangeYY,
     },
   };
 };

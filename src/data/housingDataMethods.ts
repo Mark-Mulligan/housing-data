@@ -39,10 +39,14 @@ export const formatMonthlyInventoryData = (
   const listingPriceChangeYY: PercentBarDataPoint[] = [];
   const totalListingsChangeMM: PercentBarDataPoint[] = [];
   const totalListingsChangeYY: PercentBarDataPoint[] = [];
+  const newListingsChangeMM: PercentBarDataPoint[] = [];
+  const newListingsChangeYY: PercentBarDataPoint[] = [];
   const priceReducedChangeMM: PercentBarDataPoint[] = [];
   const priceReducedChangeYY: PercentBarDataPoint[] = [];
   const daysOnMarketChangeMM: PercentBarDataPoint[] = [];
   const daysOnMarketChangeYY: PercentBarDataPoint[] = [];
+  const squareFeetChangeMM: PercentBarDataPoint[] = [];
+  const squareFeetChangeYY: PercentBarDataPoint[] = [];
 
   /* 
     Last Index of Data contains a note, first index of data contains columns titles so ignore these.
@@ -66,10 +70,14 @@ export const formatMonthlyInventoryData = (
       addPercentBarDataPoint(date, dataPoint[4], listingPriceChangeYY);
       addPercentBarDataPoint(date, dataPoint[33], totalListingsChangeMM);
       addPercentBarDataPoint(date, dataPoint[34], totalListingsChangeYY);
+      addPercentBarDataPoint(date, dataPoint[12], newListingsChangeMM);
+      addPercentBarDataPoint(date, dataPoint[13], newListingsChangeYY);
       addPercentBarDataPoint(date, dataPoint[18], priceReducedChangeMM);
       addPercentBarDataPoint(date, dataPoint[19], priceReducedChangeYY);
       addPercentBarDataPoint(date, dataPoint[9], daysOnMarketChangeMM);
       addPercentBarDataPoint(date, dataPoint[10], daysOnMarketChangeYY);
+      addPercentBarDataPoint(date, dataPoint[27], squareFeetChangeMM);
+      addPercentBarDataPoint(date, dataPoint[28], squareFeetChangeYY);
     }
   }
 
@@ -87,9 +95,13 @@ export const formatMonthlyInventoryData = (
     listingPriceChangeYY,
     totalListingsChangeMM,
     totalListingsChangeYY,
+    newListingsChangeMM,
+    newListingsChangeYY,
     priceReducedChangeMM,
     priceReducedChangeYY,
     daysOnMarketChangeMM,
     daysOnMarketChangeYY,
+    squareFeetChangeMM,
+    squareFeetChangeYY,
   };
 };
