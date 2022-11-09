@@ -48,6 +48,12 @@ export interface PercentBarDataPoint {
   data: number;
 }
 
+export interface State {
+  id: string;
+  val: string;
+  fullName: string;
+}
+
 export type MonthlyHousingInventoryDataPoint = [
   string, // "month_date_yyyymm" -- 0,
   string, // "country" -- 1,

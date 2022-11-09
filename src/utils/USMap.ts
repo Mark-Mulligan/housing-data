@@ -1,4 +1,6 @@
-export const allStates = [
+import { State } from "../customTypes";
+
+export const allStates: State[] = [
   { id: "AL", val: "01", fullName: "Alabama" },
   { id: "AK", val: "02", fullName: "Alaska" },
   { id: "AZ", val: "04", fullName: "Arizona" },

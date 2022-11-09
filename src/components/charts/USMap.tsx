@@ -20,7 +20,11 @@ import {
 import { allStates } from "../../utils/USMap";
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
-const offsets: any = {
+interface LabelOffsets {
+  [key: string]: [number, number];
+}
+
+const labelOffsets: LabelOffsets = {
   VT: [50, -8],
   NH: [34, 2],
   MA: [30, -1],
@@ -32,8 +36,30 @@ const offsets: any = {
   DC: [49, 21],
 };
 
+interface Geo {
+  id: string;
+  rmsKey: string;
+}
+
 const MapChart = () => {
   const router = useRouter();
+
+  const handleStateClick = (geo: Geo) => {
+    const selectedState = allStates.find((s) => s.val === geo.id);
+    if (selectedState) {
+      router.push(
+        {
+          pathname: "/state",
+          query: {
+            id: selectedState.id.toLowerCase(),
+            val: selectedState.val,
+          },
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
+  };
 
   return (
     <ComposableMap projection="geoAlbersUsa">
@@ -42,22 +68,7 @@ const MapChart = () => {
           <>
             {geographies.map((geo) => (
               <Geography
-                onClick={() => {
-                  const selectedState = allStates.find((s) => s.val === geo.id);
-                  if (selectedState) {
-                    router.push(
-                      {
-                        pathname: "/state",
-                        query: {
-                          id: selectedState.id.toLowerCase(),
-                          val: selectedState.val,
-                        },
-                      },
-                      undefined,
-                      { shallow: true }
-                    );
-                  }
-                }}
+                onClick={() => handleStateClick(geo)}
                 key={geo.rsmKey}
                 stroke="#FFF"
                 geography={geo}
@@ -69,6 +80,7 @@ const MapChart = () => {
                 style={{
                   default: { outline: "none" },
                   hover: {
+                    cursor: "pointer",
                     outline: "none",
                     fill:
                       router?.query.val === geo.id.toLowerCase()
@@ -82,13 +94,22 @@ const MapChart = () => {
             {geographies.map((geo) => {
               const centroid = geoCentroid(geo);
               const cur = allStates.find((s) => s.val === geo.id);
+              const labelOffset = cur ? labelOffsets[cur.id] : undefined;
               return (
                 <g key={geo.rsmKey + "-name"}>
                   {cur &&
                     centroid[0] > -160 &&
                     centroid[0] < -67 &&
-                    (Object.keys(offsets).indexOf(cur.id) === -1 ? (
-                      <Marker coordinates={centroid}>
+                    (labelOffset === undefined ? (
+                      <Marker
+                        onClick={() => handleStateClick(geo)}
+                        coordinates={centroid}
+                        style={{
+                          hover: {
+                            cursor: "pointer",
+                          },
+                        }}
+                      >
                         <text y="2" fontSize={14} textAnchor="middle">
                           {cur.id}
                         </text>
@@ -96,8 +117,8 @@ const MapChart = () => {
                     ) : (
                       <Annotation
                         subject={centroid}
-                        dx={offsets[cur.id][0]}
-                        dy={offsets[cur.id][1]}
+                        dx={labelOffset[0]}
+                        dy={labelOffset[1]}
                         style={{ fill: "white", color: "white" }}
                       >
                         <text x={4} fontSize={14} alignmentBaseline="middle">
