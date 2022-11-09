@@ -11,24 +11,10 @@ import { parse } from "csv-parse/sync";
 import { PercentBarDataPoint, StateData } from "../../../../customTypes";
 
 // Utils
-import { addPercentBarDataPoint } from "../../../../data/housingDataMethods";
-
-const formatMonthlyDate = (date: string) => {
-  let year = date.slice(0, 4);
-  let month = date.slice(4);
-  return `${month}/${year}`;
-};
-
-type Data = {
-  dateData: string[];
-  stateData: string[];
-  listingPriceData: number[];
-  daysOnMarketData: number[];
-  newListingCountData: number[];
-  priceReducedCountData: number[];
-  squareFeetData: number[];
-  totalListingCountData: number[];
-};
+import {
+  addPercentBarDataPoint,
+  formatMonthlyDate,
+} from "../../../../data/housingDataMethods";
 
 type Error = {
   message: string;
@@ -74,8 +60,8 @@ export default async function handler(
 
     for (let i = formattedData.length - 2; i > 0; i--) {
       if (formattedData[i][2].toLowerCase() === stateId) {
-        let dataPoint = formattedData[i];
-        let date = formatMonthlyDate(dataPoint[0]);
+        const dataPoint = formattedData[i];
+        const date = formatMonthlyDate(dataPoint[0]);
         dateData.push(date);
         stateData.push(dataPoint[1]);
         listingPriceData.push(Number(dataPoint[3]));

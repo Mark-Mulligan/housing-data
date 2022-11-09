@@ -13,22 +13,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+// Controllers
+import { updateChartData } from "./controllers";
+
 // Custom Types
-import { MonthlyInventoryChartDataPoint, MonthlyData } from "../../customTypes";
+import {
+  MonthlyInventoryChartDataPoint,
+  MonthlyData,
+  DisplayedChartData,
+} from "../../../customTypes";
 
 interface IProps {
   monthlyData: MonthlyData;
 }
-
-interface DisplayedChartData {
-  listingPrice: boolean;
-  totalListings: boolean;
-  newListings: boolean;
-  priceReduced: boolean;
-  daysOnMarket: boolean;
-  squareFeet: boolean;
-}
-
 const activeBtnCSS =
   "text-gray-900 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2";
 
@@ -69,44 +66,9 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
     return true;
   };
 
-  const updateChartData = () => {
-    const {
-      dateData,
-      listingPriceData,
-      totalListingCountData,
-      newListingCountData,
-      priceReducedCountData,
-      daysOnMarketData,
-      squareFeetData,
-    } = monthlyData;
-    const result: MonthlyInventoryChartDataPoint[] = [];
-
-    for (let i = 0; i < dateData.length; i++) {
-      const dataPoint: MonthlyInventoryChartDataPoint = {
-        name: dateData[i] || "",
-      };
-
-      if (displayedChartData.listingPrice)
-        dataPoint.listingPrice = listingPriceData[i];
-      if (displayedChartData.totalListings)
-        dataPoint.totalListings = totalListingCountData[i];
-      if (displayedChartData.newListings)
-        dataPoint.newListings = newListingCountData[i];
-      if (displayedChartData.priceReduced)
-        dataPoint.priceReduced = priceReducedCountData[i];
-      if (displayedChartData.daysOnMarket)
-        dataPoint.daysOnMarket = daysOnMarketData[i];
-      if (displayedChartData.squareFeet)
-        dataPoint.squareFeet = squareFeetData[i];
-
-      result.push(dataPoint);
-    }
-
-    setChartData(result);
-  };
-
   useEffect(() => {
-    updateChartData();
+    const newChartData = updateChartData(monthlyData, displayedChartData);
+    setChartData(newChartData);
   }, [displayedChartData, monthlyData]);
 
   return (

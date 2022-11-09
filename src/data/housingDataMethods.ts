@@ -5,13 +5,13 @@ import {
 } from "../customTypes";
 
 const decimalToPercent = (numStr: string) => {
-  let result = Number(numStr) * 100;
+  const result = Number(numStr) * 100;
   return Number(result.toFixed(2));
 };
 
-const formatMonthlyDate = (date: string) => {
-  let year = date.slice(0, 4);
-  let month = date.slice(4);
+export const formatMonthlyDate = (date: string) => {
+  const year = date.slice(0, 4);
+  const month = date.slice(4);
   return `${month}/${year}`;
 };
 
@@ -53,10 +53,10 @@ export const formatMonthlyInventoryData = (
     Data must be reformatted to start with the earliest dates, thus the backwards for loop
   */
   for (let i = housingData.length - 2; i > 0; i--) {
-    let dataPoint = housingData[i];
+    const dataPoint = housingData[i];
 
     if (dataPoint) {
-      let date = formatMonthlyDate(dataPoint[0]);
+      const date = formatMonthlyDate(dataPoint[0]);
       dateData.push(date);
       listingPriceData.push(Number(dataPoint[2]));
       daysOnMarketData.push(Number(dataPoint[8]));

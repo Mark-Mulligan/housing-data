@@ -1,14 +1,11 @@
 // React
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 // Next
 import { useRouter } from "next/router";
 
-// Axios
-import axios from "axios";
-
 // D3-Geo
-import { geoCentroid, geoIdentity } from "d3-geo";
+import { geoCentroid } from "d3-geo";
 
 // React Simple Maps
 import {

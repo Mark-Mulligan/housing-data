@@ -86,6 +86,7 @@ const Home: NextPage<IProps> = ({
             <a
               href="https://www.realtor.com/research/data/"
               target="_blank"
+              rel="noreferrer"
               className="text-white"
             >
               relator.com
@@ -106,6 +107,7 @@ const Home: NextPage<IProps> = ({
             <a
               href="https://www.realtor.com/research/data/"
               target="_blank"
+              rel="noreferrer"
               className="text-white"
             >
               relator.com

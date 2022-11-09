@@ -35,18 +35,18 @@ const StatePage = () => {
     }
   };
 
-  const updateChartData = async (stateId: string) => {
-    setIsLoading(true);
-    try {
-      const stateMonthlyData = await getStateData(stateId);
-      setChartData(stateMonthlyData);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
-
   useEffect(() => {
+    const updateChartData = async (stateId: string) => {
+      setIsLoading(true);
+      try {
+        const stateMonthlyData = await getStateData(stateId);
+        setChartData(stateMonthlyData);
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    };
+
     if (router.query.id && typeof router.query.id === "string") {
       updateChartData(router.query.id);
     }
@@ -60,7 +60,7 @@ const StatePage = () => {
             Monthly Inventory Data By State
           </h2>
           <p className="m-auto mb-6 max-w-xl text-center text-slate-400">
-            Click on a state in the map to view that state's data below.
+            Click on a state in the map to view that state&apos;s data below.
           </p>
         </div>
         <div className="h-32" />
@@ -81,6 +81,7 @@ const StatePage = () => {
                 <a
                   href="https://www.realtor.com/research/data/"
                   target="_blank"
+                  rel="noreferrer"
                   className="text-white"
                 >
                   relator.com
@@ -103,6 +104,7 @@ const StatePage = () => {
                 <a
                   href="https://www.realtor.com/research/data/"
                   target="_blank"
+                  rel="noreferrer"
                   className="text-white"
                 >
                   relator.com

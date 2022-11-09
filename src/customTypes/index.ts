@@ -34,6 +34,15 @@ export interface StateData {
   squareFeetChangeYY: PercentBarDataPoint[];
 }
 
+export interface DisplayedChartData {
+  listingPrice: boolean;
+  totalListings: boolean;
+  newListings: boolean;
+  priceReduced: boolean;
+  daysOnMarket: boolean;
+  squareFeet: boolean;
+}
+
 export interface PercentBarDataPoint {
   date: string;
   data: number;
