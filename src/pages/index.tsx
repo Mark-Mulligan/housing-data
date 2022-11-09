@@ -71,8 +71,8 @@ const Home: NextPage<IProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="dark container mx-auto min-h-screen p-4">
-        <h1 className="mb-4 text-center text-4xl font-extrabold leading-normal text-white md:text-[5rem]">
+      <main className="dark container mx-auto min-h-screen px-2 sm:px-4">
+        <h1 className="mt-16 mb-4 text-center text-4xl font-extrabold leading-normal text-white md:text-[5rem]">
           US Housing Data
         </h1>
         <section className="mb-16">

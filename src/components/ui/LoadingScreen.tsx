@@ -7,7 +7,7 @@ interface IProps {
 
 const LoadingScreen: FC<IProps> = ({ loadingText }) => {
   return (
-    <div className="fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-black/50">
+    <div className="fixed top-0 left-0 z-10 flex h-screen w-screen items-center justify-center bg-black/50">
       <div className="flex flex-col items-center justify-center">
         <p className="mb-4 text-2xl text-white">{loadingText}</p>
         <div role="status">
