@@ -15,7 +15,7 @@ const formatMonthlyDate = (date: string) => {
   return `${month}/${year}`;
 };
 
-const addPercentBarDataPoint = (
+export const addPercentBarDataPoint = (
   date: string,
   percentDataPoint: string,
   dataArr: PercentBarDataPoint[]

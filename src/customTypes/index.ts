@@ -18,6 +18,22 @@ export interface MonthlyData {
   totalListingCountData: number[];
 }
 
+export interface StateData {
+  monthlyInventoryLineData: MonthlyData;
+  listingPriceChangeMM: PercentBarDataPoint[];
+  listingPriceChangeYY: PercentBarDataPoint[];
+  totalListingsChangeMM: PercentBarDataPoint[];
+  totalListingsChangeYY: PercentBarDataPoint[];
+  newListingsChangeMM: PercentBarDataPoint[];
+  newListingsChangeYY: PercentBarDataPoint[];
+  priceReducedChangeMM: PercentBarDataPoint[];
+  priceReducedChangeYY: PercentBarDataPoint[];
+  daysOnMarketChangeMM: PercentBarDataPoint[];
+  daysOnMarketChangeYY: PercentBarDataPoint[];
+  squareFeetChangeMM: PercentBarDataPoint[];
+  squareFeetChangeYY: PercentBarDataPoint[];
+}
+
 export interface PercentBarDataPoint {
   date: string;
   data: number;

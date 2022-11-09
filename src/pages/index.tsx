@@ -94,6 +94,23 @@ const Home: NextPage<IProps> = ({
           <MonthlyInventoryChart monthlyData={monthlyInventoryLineChart} />
         </section>
         <section>
+          <h2 className="mb-4 text-center text-3xl text-white">
+            Trends Over Time
+          </h2>
+          <p className="m-auto mb-6 max-w-xl text-center text-slate-400">
+            The data in this section shows the rate of change of different
+            housing metrics over time. These metrics can be view on a year over
+            year basis or month over month basis. Values are represented as
+            percents (ex. Listing prices may be 10% higher this month on a year
+            over year basis). Data is provided by{" "}
+            <a
+              href="https://www.realtor.com/research/data/"
+              target="_blank"
+              className="text-white"
+            >
+              relator.com
+            </a>
+          </p>
           <ul className="grid grid-cols-1 lg:grid-cols-2 ">
             <li>
               <ChangeOverTimeChart

@@ -20,7 +20,7 @@ const Navbar = () => {
             alt="Flowbite Logo"
           />
           <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
-            Housing Data
+            US Housing Data
           </span>
         </a>
         <button
