@@ -71,14 +71,26 @@ const Home: NextPage<IProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto min-h-screen p-4">
-        <h1 className="text-center text-5xl font-extrabold leading-normal text-white md:text-[5rem]">
+      <main className="dark container mx-auto min-h-screen p-4">
+        <h1 className="mb-4 text-center text-4xl font-extrabold leading-normal text-white md:text-[5rem]">
           US Housing Data
         </h1>
         <section className="mb-16">
-          <h2 className="mb-2 text-center text-2xl text-white">
-            Monthly Inventory Data - US
+          <h2 className="mb-4 text-center text-3xl text-white">
+            Monthly Inventory Data
           </h2>
+          <p className="m-auto mb-6 max-w-xl text-center text-slate-400">
+            The data below shows the values for different housing metrics in the
+            United States. Click on the buttons below to view different metrics
+            in the chart. Data is provided by{" "}
+            <a
+              href="https://www.realtor.com/research/data/"
+              target="_blank"
+              className="text-white"
+            >
+              relator.com
+            </a>
+          </p>
           <MonthlyInventoryChart monthlyData={monthlyInventoryLineChart} />
         </section>
         <section>

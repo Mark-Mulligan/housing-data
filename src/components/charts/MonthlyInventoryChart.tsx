@@ -198,7 +198,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
                 dataKey="listingPrice"
                 stroke="#34d399"
                 yAxisId="price"
-                name="Listing Price"
+                name="Median List Price"
                 dot={false}
               />
             )}
@@ -267,7 +267,7 @@ const MonthlyInventoryChart: FC<IProps> = ({ monthlyData }) => {
           }
           onClick={() => handleChartButtonClick("listingPrice")}
         >
-          Listing Price
+          Median List Price
         </button>
         <button
           className={
