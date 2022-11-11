@@ -55,19 +55,20 @@ const StatePage = () => {
 
     if (router.query.id && typeof router.query.id === "string") {
       updateChartData(router.query.id);
-      let searchString = extractSearchString(router.asPath);
+      const searchString = extractSearchString(router.asPath);
       setLastSearchString(searchString);
     }
-  }, [router.query]);
+  }, [router.query, router.asPath, setLastSearchString]);
 
   return (
     <>
       <Head>
-        <title>
-          US Housing Market - State Data{" "}
-          {typeof router.query.val === "string"
-            ? getStateNameFromVal(router.query.val)
-            : ""}
+        <title key="tittle">
+          {` US Housing Market - State Data ${
+            typeof router.query.val === "string"
+              ? getStateNameFromVal(router.query.val)
+              : ""
+          }`}
         </title>
         <meta
           name="description"
