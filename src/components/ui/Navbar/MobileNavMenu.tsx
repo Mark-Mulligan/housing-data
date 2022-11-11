@@ -1,9 +1,12 @@
 // React
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 // Next
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+// Context
+import { AppContext } from "../../../context/AppContext";
 
 // Utils
 import { activeNavItemCSS, nonActiveNavItemCSS } from "../../../utils/css";
@@ -14,6 +17,7 @@ interface IProps {
 
 const MobileNavMenu: FC<IProps> = ({ isOpen }) => {
   const router = useRouter();
+  const { lastSearchString } = useContext(AppContext);
 
   return (
     <div className="md:hidden " id="navbar-default">
@@ -36,7 +40,7 @@ const MobileNavMenu: FC<IProps> = ({ isOpen }) => {
           </Link>
         </li>
         <li>
-          <Link href="/state" passHref={true}>
+          <Link href={`/state${lastSearchString}`} passHref={true}>
             <a
               className={
                 router?.pathname === "/state"

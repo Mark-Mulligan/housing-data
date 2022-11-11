@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 // Next
 import { useRouter } from "next/router";
@@ -11,6 +11,9 @@ import axios from "axios";
 // Custom Types
 import { StateData } from "../../customTypes/";
 
+// Context
+import { AppContext } from "../../context/AppContext";
+
 // Components
 import USMap from "../../components/charts/USMap";
 import MonthlyInventoryChart from "../../components/charts/MonthlyInventoryChart";
@@ -19,9 +22,11 @@ import ChangeOverTimeChart from "../../components/charts/ChangeOverTimeChart";
 
 // Utils
 import { getStateNameFromVal } from "../../utils/USMap";
+import { extractSearchString } from "../../utils/routing";
 
 const StatePage = () => {
   const router = useRouter();
+  const { setLastSearchString } = useContext(AppContext);
   const [chartData, setChartData] = useState<StateData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,6 +55,8 @@ const StatePage = () => {
 
     if (router.query.id && typeof router.query.id === "string") {
       updateChartData(router.query.id);
+      let searchString = extractSearchString(router.asPath);
+      setLastSearchString(searchString);
     }
   }, [router.query]);
 

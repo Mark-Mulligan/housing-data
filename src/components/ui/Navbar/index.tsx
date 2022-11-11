@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 z-10 w-full border-gray-200 bg-gray-700 px-2 py-2 sm:px-4">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
-        <a href="https://flowbite.com/" className="flex items-center">
+        <div className="flex items-center">
           <div className="mr-3 sm:h-9">
             <Image
               src="/images/logo.png"
@@ -26,7 +26,7 @@ const Navbar = () => {
           <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
             US Housing Data
           </span>
-        </a>
+        </div>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
